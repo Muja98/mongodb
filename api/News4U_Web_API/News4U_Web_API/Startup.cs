@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using News4U_Data_Provider.DatabaseSettings;
+using News4U_Data_Provider.Services.RepositoryServices;
+using News4U_Data_Provider.Services.RepositoryContracts;
 
 namespace News4U_Web_API
 {
@@ -26,6 +30,12 @@ namespace News4U_Web_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.Configure<News4UMongoDatabaseSettings>(Configuration.GetSection(nameof(News4UMongoDatabaseSettings)));
+
+            services.AddSingleton<INews4UMongoIDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<News4UMongoDatabaseSettings>>().Value);
+            services.AddSingleton<IEditorRepository, EditorRepository>();
+            services.AddSingleton<INewsRepository, NewsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

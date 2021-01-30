@@ -9,5 +9,9 @@
     <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\News4U_Data_Provider\News4U_Data_Provider.csproj" />
+  </ItemGroup>
+
 
 </Project>
