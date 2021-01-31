@@ -3,20 +3,21 @@ using News4U_Data_Provider.Services.RepositoryContracts;
 using System;
 using System.Collections.Generic;
 using System.Text;
-//using MongoDB.Driver;
+using MongoDB.Driver;
+using News4U_Data_Provider.Entities;
 
 namespace News4U_Data_Provider.Services.RepositoryServices
 {
     public class EditorRepository: IEditorRepository
     {
-        //private readonly IMongoCollection<Editor> _editors;
+        private readonly IMongoCollection<Editor> _editors;
 
         public EditorRepository(INews4UMongoIDatabaseSettings settings)
         {
-            //var client = new MongoClient(settings.ConnectionString);
-            //var database = client.GetDatabase(settings.DatabaseName);
+            var client = new MongoClient(settings.ConnectionString);
+            var database = client.GetDatabase(settings.DatabaseName);
 
-            //_editors = database.GetCollection<Editor>(settings.EditorsCollectionName);
+            _editors = database.GetCollection<Editor>(settings.EditorsCollectionName);
         }
     }
 }
