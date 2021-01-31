@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using News4U_Data_Provider.DatabaseSettings;
 using News4U_Data_Provider.Services.RepositoryServices;
 using News4U_Data_Provider.Services.RepositoryContracts;
+using MongoDB.Bson.Serialization.Conventions;
 
 namespace News4U_Web_API
 {
@@ -30,6 +31,10 @@ namespace News4U_Web_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            ConventionRegistry.Register("Ignore null values", new ConventionPack
+            {
+                new IgnoreIfNullConvention(true)
+            }, t => true);
             services.Configure<News4UMongoDatabaseSettings>(Configuration.GetSection(nameof(News4UMongoDatabaseSettings)));
 
             services.AddSingleton<INews4UMongoIDatabaseSettings>(sp =>
