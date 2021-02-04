@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using News4U_Data_Provider.Entities;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using MongoDB.Driver.Linq;
 
 namespace News4U_Data_Provider.Services.RepositoryServices
 {
@@ -32,5 +33,21 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             Editor editor = await _editors.Find(editor => editor.Id == editorId).FirstOrDefaultAsync();
             return editor;
         }
+         
+        public async Task AddNews(string editorId, string newsId)
+        {
+            var filter = Builders<Editor>.Filter.Eq("Id", editorId);
+            var arrayUpdate = Builders<Editor>.Update.Push("MyNews", newsId);
+
+            await _editors.UpdateOneAsync(filter, arrayUpdate);
+        }
+
+        public async Task DeleteNews(string editorId, string newsId)
+        {
+            var editorFilter = Builders<Editor>.Filter.Eq("Id", editorId);
+            var arrayUpdate = Builders<Editor>.Update.Pull("MyNews", newsId);
+
+            await _editors.UpdateOneAsync(editorFilter, arrayUpdate);
+        }
     }
-}
+} 

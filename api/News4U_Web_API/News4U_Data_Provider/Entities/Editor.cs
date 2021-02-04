@@ -14,6 +14,8 @@ namespace News4U_Data_Provider.Entities
         public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        //public List<ObjectId> MyNews { get; set; }
+
+        [BsonRepresentation(BsonType.ObjectId)]
+        public List<string> MyNews { get; set; }
     }
 }
