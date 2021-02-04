@@ -7,7 +7,7 @@ namespace News4U_Data_Provider.DTOs
 {
     public class EditorRegisterDTO
     {
-        public EditorDTO Editor { get; set; }
+        public Editor Editor { get; set; }
         public string Password { get; set; }
     }
 }
