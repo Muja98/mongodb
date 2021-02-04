@@ -15,6 +15,8 @@ using News4U_Data_Provider.DatabaseSettings;
 using News4U_Data_Provider.Services.RepositoryServices;
 using News4U_Data_Provider.Services.RepositoryContracts;
 using MongoDB.Bson.Serialization.Conventions;
+using AutoMapper;
+using News4U_Data_Provider.DTOMappingProfiles;
 
 namespace News4U_Web_API
 {
@@ -41,6 +43,7 @@ namespace News4U_Web_API
                 sp.GetRequiredService<IOptions<News4UMongoDatabaseSettings>>().Value);
             services.AddSingleton<IEditorRepository, EditorRepository>();
             services.AddSingleton<INewsRepository, NewsRepository>();
+            services.AddAutoMapper(typeof(EditorProfiles));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

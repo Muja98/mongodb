@@ -24,9 +24,9 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             _editors = database.GetCollection<Editor>(settings.EditorsCollectionName);
         }
 
-        public async Task AddEditor(EditorRegisterDTO editor)
+        public async Task AddEditor(Editor editor)
         {
-            await _editors.InsertOneAsync(editor.Editor);
+            await _editors.InsertOneAsync(editor);
         }
 
         public async Task<Editor> GetEditor(string editorId)
@@ -35,11 +35,27 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return editor;
         }
 
-        public async Task<bool> StudentExists(string username)
+        public async Task<Editor> GetEditorByUsername(string username)
+        {
+            Editor editor = await _editors.Find(editor => editor.Username == username).FirstOrDefaultAsync();
+            return editor;
+        }
+
+        public async Task<bool> EditorExists(string username)
         {
             var filter = Builders<Editor>.Filter.Eq("Username", username);
             var exists = await _editors.Find(filter).AnyAsync();
             return exists;
+        }
+
+        public async Task<string> GetEditorPassword(string username)
+        {
+            var filter = Builders<Editor>.Filter.Eq("Username", username);
+            var projection = Builders<Editor>.Projection.Include("Password").Exclude("_id");
+            var password = await _editors.Find(filter).Project(projection).FirstOrDefaultAsync();
+            if (password == null)
+                return null;
+            return password.GetElement("Password").Value.AsString;
         }
 
         public async Task AddNews(string editorId, string newsId)
