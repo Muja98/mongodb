@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using News4U_Data_Provider.Entities;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using News4U_Data_Provider.DTOs;
 
 namespace News4U_Data_Provider.Services.RepositoryServices
 {
@@ -22,7 +23,7 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             _editors = database.GetCollection<Editor>(settings.EditorsCollectionName);
         }
 
-        public async Task AddEditor(Editor editor)
+        public async Task AddEditor(EditorRegisterDTO editor)
         {
             await _editors.InsertOneAsync(editor);
         }
