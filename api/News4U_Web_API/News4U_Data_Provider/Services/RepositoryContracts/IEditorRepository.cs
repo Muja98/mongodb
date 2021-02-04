@@ -11,5 +11,7 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
     {
         public Task AddEditor(Editor editor);
         public Task<Editor> GetEditor(string editorId);
+        Task AddNews(string editorId, string newsId);
+        Task DeleteNews(string editorId, string newsId);
     }
 }
