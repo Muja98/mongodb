@@ -6,7 +6,7 @@ using System.Text;
 
 namespace News4U_Data_Provider.Entities
 {
-    public class Editor
+    public class EditorDTO
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

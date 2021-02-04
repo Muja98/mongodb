@@ -23,11 +23,17 @@ namespace News4U_Web_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddEditor([FromBody] EditorRegisterDTO editor)
+        public async Task<ActionResult> AddEditor([FromBody] EditorRegisterDTO editorInfo)
         {
-            editor.Password = AuthentificationService.EncryptPassword(editor.Password);
-            await _repository.AddEditor(editor);
-            return Ok();
+            editorInfo.Password = AuthentificationService.EncryptPassword(editorInfo.Password);
+            if (!await _repository.StudentExists(editorInfo.Editor.Username))
+            {
+                await _repository.AddEditor(editorInfo);
+                var token = JwtManager.GenerateJWToken(editorInfo.Editor, editorInfo.Editor.Id);
+                return Ok(token);
+            }
+            else
+                return Ok("Email taken");
         }
 
         [HttpGet]
