@@ -1,0 +1,165 @@
+<meta charset="utf-8">
+<title>Bootstrap News Template - Free HTML Templates</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="Bootstrap News Template - Free HTML Templates" name="keywords">
+<meta content="Bootstrap News Template - Free HTML Templates" name="description">
+
+<!-- Favicon -->
+<link href="img/favicon.ico" rel="icon">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap" rel="stylesheet"> 
+
+<!-- CSS Libraries -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+
+<div class="wrapper">
+    <!-- Top Bar Start -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="tb-contact">
+                        <p><i class="fas fa-pen"></i>Piše: Pera Perić</p>
+                        <p><i class="fas fa-calendar-alt"></i>+012 345 6789</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Top Bar Start -->
+    
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb-wrap">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Najnovije vesti</a></li>
+                <li class="breadcrumb-item active">Sport</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    
+    <!-- Single News Start-->
+    <div class="single-news">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="sn-container">
+                        <div class="sn-img" *ngIf="news.mainPicturePath">
+                            <img [src]="'data:image/png;base64,' + news.mainPicturePath" />
+                        </div>
+                        <div class="sn-content">
+                            <h1 class="sn-title">{{news.title}}</h1>
+                            <div *ngFor="let paragraph of news.paragraphs">
+                                <h3>{{paragraph.subTitle}}</h3>
+                                <p>{{paragraph.text}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sn-related">
+                        <h2>Related News</h2>
+                        <div class="row sn-slider">
+                            <div class="col-md-4">
+                                <div class="sn-img">
+                                    <img src="img/news-350x223-1.jpg" />
+                                    <div class="sn-title">
+                                        <a href="">Interdum et fames ac ante</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sn-img">
+                                    <img src="img/news-350x223-2.jpg" />
+                                    <div class="sn-title">
+                                        <a href="">Interdum et fames ac ante</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sn-img">
+                                    <img src="img/news-350x223-3.jpg" />
+                                    <div class="sn-title">
+                                        <a href="">Interdum et fames ac ante</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="sn-img">
+                                    <img src="img/news-350x223-4.jpg" />
+                                    <div class="sn-title">
+                                        <a href="">Interdum et fames ac ante</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="sidebar">
+                        <div class="sidebar-widget" *ngIf="news.survey">
+                            <h4 class="sw-title">{{news.survey.question}}</h4>
+                            <div class="news-list">
+                                <div class="nl-item" *ngFor="let namedValue of news.survey.answerValue; index as i">
+                                    <div class="nl-title">
+                                        <input 
+                                            class="form-check-input" type="radio" name="surveyAnswers" id="{{i}}" 
+                                            value="{{i}}" [(ngModel)]="surveyAnswerInd" (change)=onSurveyAnswerChange(i)>
+                                        <label class="form-check-label" for="{{i}}">
+                                            {{namedValue.name}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button 
+                                type="button" class="btn btn-outline-primary"
+                                [disabled]="!surveyAnswer || surveyAnswer.length <= 0">
+                                Glasajte
+                            </button>
+                        </div>
+                        
+                        <div class="sidebar-widget" *ngIf="news.chart">
+                            <div class="tab-news">
+                                <div class="tab-content">
+                                    <h4 class="sw-title">{{news.chart.description}}</h4>
+                                    <div id="featured" class="container tab-pane active">
+                                        <div class="tn-news" *ngFor="let pieceOfData of news.chart.data">
+                                            <div class="col-3">
+                                                {{pieceOfData.name}} 
+                                            </div>
+                                            <div class="tn-title" style="width: 100%;">
+                                                <ngb-progressbar textType="white" [value]="calculateProgressbarPercentage(pieceOfData.value)"> 
+                                                    {{pieceOfData.value}} 
+                                                </ngb-progressbar>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-widget" *ngIf="news.tags && news.tags.length > 0">
+                            <i style="margin-bottom: 10px" class="fas fa-tag fa-3x"></i>
+                            <div class="tags">
+                                <div *ngFor="let tag of news.tags"> {{tag}} </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Single News End--> 
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/slick/slick.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</div>

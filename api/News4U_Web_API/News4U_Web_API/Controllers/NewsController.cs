@@ -75,5 +75,29 @@ namespace News4U_Web_API.Controllers
             var result = await _repository.GetRelatedNews(newsId);
             return Ok(result);
         }
+        
+        [HttpPost]
+        [Route("{newsId}/survey/{surveyIndex}")]
+        public async Task<ActionResult> VoteSurvey(string newsId, int surveyIndex)
+        {
+            await _repository.VoteSurvey(newsId, surveyIndex);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("{newsId}/survey")]
+        public async Task<ActionResult> GetSurveyResult(string newsId)
+        {
+            var srv = await  _repository.GetSurveyResult(newsId);
+            return Ok(srv);
+        }
+
+        [HttpPost]
+        [Route("{newsId}/comment")]
+        public async Task<IActionResult> AddNewComment(string newsId, [FromBody] Comment comment)
+        {
+            await _repository.AddNewComment(newsId, comment);
+            return Ok();
+        }
     }
 }

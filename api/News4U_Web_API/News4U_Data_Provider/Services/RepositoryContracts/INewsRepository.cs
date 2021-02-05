@@ -14,5 +14,8 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
         Task<string> AddNews(News news);
         Task<string> DeleteNews(string newsId);
         Task<IEnumerable<News>> GetRelatedNews(string newsId);
+        Task VoteSurvey(string newsId, int surveyIndex);
+        Task<IEnumerable<NamedValue>> GetSurveyResult(string newsId);
+        Task AddNewComment(string newsId, Comment comment);
     }
 }

@@ -126,5 +126,38 @@ namespace News4U_Data_Provider.Services.RepositoryServices
 
             return result;
         }
+
+        public async Task VoteSurvey(string newsId, int surveyIndex)
+        {
+            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            
+            if(news != null && news.Survey != null)
+            {
+                news.Survey.AnswerValue[surveyIndex].Value++;
+                await _news.ReplaceOneAsync(x => x.Id == newsId, news);
+            }
+        }
+
+        public async Task<IEnumerable<NamedValue>> GetSurveyResult(string newsId)
+        {
+            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            if (news != null)
+                return news.Survey.AnswerValue;
+            else
+                return null;
+        }
+
+        public async Task AddNewComment(string newsId, Comment comment)
+        {
+            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+
+            if (news != null && news.Survey != null)
+            {
+                news.Comments.Add(comment);
+                await _news.ReplaceOneAsync(x => x.Id == newsId, news);
+            }
+        }
+
+       
     }
 }

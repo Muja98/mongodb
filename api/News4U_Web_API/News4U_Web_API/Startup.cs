@@ -15,6 +15,8 @@ using News4U_Data_Provider.DatabaseSettings;
 using News4U_Data_Provider.Services.RepositoryServices;
 using News4U_Data_Provider.Services.RepositoryContracts;
 using MongoDB.Bson.Serialization.Conventions;
+using AutoMapper;
+using News4U_Data_Provider.DTOMappingProfiles;
 
 namespace News4U_Web_API
 {
@@ -41,6 +43,17 @@ namespace News4U_Web_API
                 sp.GetRequiredService<IOptions<News4UMongoDatabaseSettings>>().Value);
             services.AddSingleton<IEditorRepository, EditorRepository>();
             services.AddSingleton<INewsRepository, NewsRepository>();
+            services.AddAutoMapper(typeof(EditorProfiles));
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CORS", builder =>
+                {
+                    builder.AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .SetIsOriginAllowed((host) => true)
+                   .AllowCredentials();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +67,8 @@ namespace News4U_Web_API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CORS");
 
             app.UseAuthorization();
 
