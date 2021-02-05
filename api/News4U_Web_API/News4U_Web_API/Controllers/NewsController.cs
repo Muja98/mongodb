@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using News4U_Data_Provider.Entities;
 using News4U_Data_Provider.Services.RepositoryContracts;
+using News4U_Helpers;
 
 namespace News4U_Web_API.Controllers
 {
