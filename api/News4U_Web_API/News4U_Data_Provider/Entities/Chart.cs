@@ -8,5 +8,6 @@ namespace News4U_Data_Provider.Entities
     {
         public List<NamedValue> Data { get; set; }
         public int SegmentSize { get; set; }
+        public string Description { get; set; }
     }
 }
