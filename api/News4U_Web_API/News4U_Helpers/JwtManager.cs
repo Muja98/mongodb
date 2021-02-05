@@ -9,10 +9,10 @@ namespace News4U_Helpers
 {
     public class JwtManager
     {
-        public static string GenerateJWToken(Editor editor, string id)
+        public static string GenerateJWToken(Editor editor)
         {
             var claims = new[] {
-                new Claim("id", id),
+                new Claim("id", editor.Id),
                 new Claim("firstName", editor.FirstName),
                 new Claim("lastName", editor.LastName),
                 new Claim("username", editor.Username)

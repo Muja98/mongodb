@@ -10,9 +10,11 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
 {
     public interface IEditorRepository
     {
-        public Task AddEditor(EditorRegisterDTO editor);
+        public Task AddEditor(Editor editor);
         public Task<Editor> GetEditor(string editorId);
-        public Task<bool> StudentExists(string username);
+        public Task<Editor> GetEditorByUsername(string username);
+        public Task<bool> EditorExists(string username);
+        public Task<string> GetEditorPassword(string username);
         Task AddNews(string editorId, string newsId);
         Task DeleteNews(string editorId, string newsId);
     }
