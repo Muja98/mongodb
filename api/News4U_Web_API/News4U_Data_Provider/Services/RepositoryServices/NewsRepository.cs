@@ -110,5 +110,18 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             else
                 return null;
         }
+
+        public async Task AddNewComment(string newsId, Comment comment)
+        {
+            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+
+            if (news != null && news.Survey != null)
+            {
+                news.Comments.Add(comment);
+                await _news.ReplaceOneAsync(x => x.Id == newsId, news);
+            }
+        }
+
+       
     }
 }

@@ -83,5 +83,13 @@ namespace News4U_Web_API.Controllers
             var srv = await  _repository.GetSurveyResult(newsId);
             return Ok(srv);
         }
+
+        [HttpPost]
+        [Route("{newsId}/comment")]
+        public async Task<IActionResult> AddNewComment(string newsId, [FromBody] Comment comment)
+        {
+            await _repository.AddNewComment(newsId, comment);
+            return Ok();
+        }
     }
 }

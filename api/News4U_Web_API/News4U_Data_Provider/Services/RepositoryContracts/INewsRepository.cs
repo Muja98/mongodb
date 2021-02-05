@@ -16,5 +16,6 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
 
         Task VoteSurvey(string newsId, int surveyIndex);
         Task<IEnumerable<NamedValue>> GetSurveyResult(string newsId);
+        Task AddNewComment(string newsId, Comment comment);
     }
 }
