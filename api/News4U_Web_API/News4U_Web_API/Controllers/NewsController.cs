@@ -67,5 +67,13 @@ namespace News4U_Web_API.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("{newsId}/survey/{surveyIndex}")]
+        public async Task<ActionResult> VoteSurvey(string newsId, int surveyIndex)
+        {
+            await _repository.VoteSurvey(newsId, surveyIndex);
+            return Ok();
+        }
     }
 }

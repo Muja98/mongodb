@@ -90,5 +90,13 @@ namespace News4U_Data_Provider.Services.RepositoryServices
 
             return result ;
         }
+
+        public async Task VoteSurvey(string newsId, int surveyIndex)
+        {
+            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            news.Survey.AnswerValue[surveyIndex].Value++;
+            var update = MongoDB.Driver.Builders.Update.set("survey", BsonValue.Create(news.Survey));
+            
+        }
     }
 }
