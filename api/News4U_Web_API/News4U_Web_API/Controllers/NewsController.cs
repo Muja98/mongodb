@@ -62,8 +62,8 @@ namespace News4U_Web_API.Controllers
         [Route("{newsId}")]
         public async Task<ActionResult> DeleteNews(string newsId)
         {
-            string editorId =  await _repository.DeleteNews(newsId);
-            await  _editorRepository.DeleteNews(editorId, newsId);
+            string editorId = await _repository.DeleteNews(newsId);
+            await _editorRepository.DeleteNews(editorId, newsId);
 
             return Ok();
         }
@@ -74,6 +74,14 @@ namespace News4U_Web_API.Controllers
         {
             await _repository.VoteSurvey(newsId, surveyIndex);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{newsId}/survey")]
+        public async Task<ActionResult> GetSurveyResult(string newsId)
+        {
+            var srv = await  _repository.GetSurveyResult(newsId);
+            return Ok(srv);
         }
     }
 }

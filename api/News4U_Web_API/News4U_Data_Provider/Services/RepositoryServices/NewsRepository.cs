@@ -93,19 +93,22 @@ namespace News4U_Data_Provider.Services.RepositoryServices
 
         public async Task VoteSurvey(string newsId, int surveyIndex)
         {
+            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            
+            if(news != null && news.Survey != null)
+            {
+                news.Survey.AnswerValue[surveyIndex].Value++;
+                await _news.ReplaceOneAsync(x => x.Id == newsId, news);
+            }
+        }
 
-//            var appointment = collection
-//            .AsQueryable()
-//            FirstOrDefault(x => x.Id == 12);
-
-//            if (appointment != .null)
-//{
-//                appointment.StartDateTime = new DateTime(2020, 2, 20);
-
-//                // save the changes
-//                collection.ReplaceOne(x => x.Id == appointment.Id, appointment); // or preferably, await collection.ReplaceOneAsync(x => x.Id == appointment.Id, appointment);
-//            }
-
+        public async Task<IEnumerable<NamedValue>> GetSurveyResult(string newsId)
+        {
+            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            if (news != null)
+                return news.Survey.AnswerValue;
+            else
+                return null;
         }
     }
 }

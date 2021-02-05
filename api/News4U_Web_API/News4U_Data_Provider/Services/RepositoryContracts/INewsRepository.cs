@@ -15,5 +15,6 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
         Task<string> DeleteNews(string newsId);
 
         Task VoteSurvey(string newsId, int surveyIndex);
+        Task<IEnumerable<NamedValue>> GetSurveyResult(string newsId);
     }
 }
