@@ -18,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http'
     AppRoutingModule,
     HttpClientModule,
     RouterModule.forRoot([
-      {path: 'specific-news', component: SpecificNewsComponent}
+      {path: 'specific-news/:newsId', component: SpecificNewsComponent}
     ])
   ],
   providers: [],
