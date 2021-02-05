@@ -13,5 +13,6 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
         Task<IEnumerable<News>> GetAllNews(string title, string field, string tag, int from, int to);
         Task<string> AddNews(News news);
         Task<string> DeleteNews(string newsId);
+        Task<IEnumerable<News>> GetRelatedNews(string newsId);
     }
 }

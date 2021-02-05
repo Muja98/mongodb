@@ -22,7 +22,7 @@ namespace News4U_Web_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllNews([FromQuery] string title, [FromQuery] string field, [FromQuery] string tag, int from, int to)
+        public async Task<ActionResult> GetAllNews([FromQuery] string title, [FromQuery] string field, [FromQuery] string tag, [FromQuery] int from, [FromQuery] int to)
         {
             var news = await _repository.GetAllNews(title, field, tag, from, to);
             return Ok(news);
@@ -62,10 +62,18 @@ namespace News4U_Web_API.Controllers
         [Route("{newsId}")]
         public async Task<ActionResult> DeleteNews(string newsId)
         {
-            string editorId =  await _repository.DeleteNews(newsId);
-            await  _editorRepository.DeleteNews(editorId, newsId);
+            string editorId = await _repository.DeleteNews(newsId);
+            await _editorRepository.DeleteNews(editorId, newsId);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{newsId}/related-news")]
+        public async Task<ActionResult> GetRelatedNews(string newsId)
+        {
+            var result = await _repository.GetRelatedNews(newsId);
+            return Ok(result);
         }
     }
 }
