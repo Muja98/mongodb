@@ -12,6 +12,8 @@ export class SpecificNewsComponent implements OnInit {
   public news:News;
   private newsId:string;
   private sub:any;
+  public surveyAnswer:string = "";
+  private chartMaxValue:number = 0;
 
   constructor(private newsService:NewsService, private route:ActivatedRoute) { }
 
@@ -20,9 +22,29 @@ export class SpecificNewsComponent implements OnInit {
       this.newsId = params['newsId']
       this.newsService.getSpecificNews(this.newsId).subscribe(result => {
         this.news = result;
+        if(this.news.survey)
+          this.setChartMaxValue()
         console.log(this.news);
       })
     })
   }
 
+  public onSurveyAnswerChange(ind:number) {
+    if(ind >= 0)
+      this.surveyAnswer = this.news.survey.answerValue[ind].name;
+    else
+      this.surveyAnswer = null;
+  }
+
+  public calculateProgressbarPercentage(value:number) {
+    const ret = (100.0 / this.chartMaxValue) * value;
+    return ret;
+  }
+
+  private setChartMaxValue() {
+    this.news.chart.data.map(el => {
+      if(this.chartMaxValue < el.value)
+        this.chartMaxValue = el.value;
+    })
+  }
 }

@@ -22,7 +22,7 @@ namespace News4U_Data_Provider.Entities
         public List<Paragraph> Paragraphs { get; set; }
         public List<Comment> Comments { get; set; }
         public List<string> Tags { get; set; }
-
         public Survey Survey { get; set; }
+        public Chart Chart { get; set; }
     }
 }
