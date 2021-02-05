@@ -93,10 +93,19 @@ namespace News4U_Data_Provider.Services.RepositoryServices
 
         public async Task VoteSurvey(string newsId, int surveyIndex)
         {
-            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
-            news.Survey.AnswerValue[surveyIndex].Value++;
-            var update = MongoDB.Driver.Builders.Update.set("survey", BsonValue.Create(news.Survey));
-            
+
+//            var appointment = collection
+//            .AsQueryable()
+//            FirstOrDefault(x => x.Id == 12);
+
+//            if (appointment != .null)
+//{
+//                appointment.StartDateTime = new DateTime(2020, 2, 20);
+
+//                // save the changes
+//                collection.ReplaceOne(x => x.Id == appointment.Id, appointment); // or preferably, await collection.ReplaceOneAsync(x => x.Id == appointment.Id, appointment);
+//            }
+
         }
     }
 }
