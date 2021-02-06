@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row justify-content-md-center mt-5">
+        <div class="col-md-4">
+            <label for="news.title" class="form-label">Title</label>
+            <input 
+                type="text" class="form-control"
+                placeholder="Enter a title..."
+                [(ngModel)]="news.title"
+            >
+        </div>
+        <div class="col-md-4">
+            <label for="exampleFormControlSelect1">Fields</label>
+            <select class="form-control" [(ngModel)]="news.field">
+              <option>sport</option>
+              <option>politics</option>
+              <option>health</option>
+              <option>art</option>
+              <option>fun</option>
+            </select>
+        </div>
+    </div>
+</div>
