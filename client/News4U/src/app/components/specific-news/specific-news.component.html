@@ -55,6 +55,7 @@
                             <h1 class="sn-title">{{news.title}}</h1>
                             <div *ngFor="let paragraph of news.paragraphs">
                                 <h3>{{paragraph.subTitle}}</h3>
+                                <img *ngIf="paragraph.picturePath" [src]="'data:image/png;base64,' + paragraph.picturePath" />
                                 <p>{{paragraph.text}}</p>
                             </div>
                         </div>

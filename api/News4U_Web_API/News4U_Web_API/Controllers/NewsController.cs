@@ -42,6 +42,20 @@ namespace News4U_Web_API.Controllers
         public async Task<ActionResult> GetNews(string newsId)
         {
             var news = await _repository.GetNews(newsId);
+            if(!string.IsNullOrEmpty(news.MainPicturePath))
+            {
+                news.MainPicturePath = FileManagerService.LoadImageFromFile(news.MainPicturePath);
+            }
+            if(news.Paragraphs != null)
+            {
+                foreach(Paragraph p in news.Paragraphs)
+                {
+                    if(!string.IsNullOrEmpty(p.PicturePath))
+                    {
+                        p.PicturePath = FileManagerService.LoadImageFromFile(p.PicturePath);
+                    }
+                }    
+            }
             return Ok(news);
         }
 
@@ -49,7 +63,46 @@ namespace News4U_Web_API.Controllers
         [Route("{editorId}")]
         public async Task<ActionResult> AddNews(string editorId, [FromBody] News news)
         {
+            string tempNewsMainPicture = null;
+            List<Paragraph> tempNewsParagraphs = null;
+            if(!string.IsNullOrEmpty(news.MainPicturePath))
+            {
+                tempNewsMainPicture = news.MainPicturePath;
+                news.MainPicturePath = null;
+            }
+
+            foreach(Paragraph p in news.Paragraphs)
+            {
+                if(!string.IsNullOrEmpty(p.PicturePath))
+                {
+                    tempNewsParagraphs = news.Paragraphs;
+                    news.Paragraphs = null;
+                    break;
+                }
+            }
+
             string newsId = await _repository.AddNews(news);
+
+            if (!string.IsNullOrEmpty(tempNewsMainPicture) || tempNewsParagraphs != null) 
+            {
+                if(!string.IsNullOrEmpty(tempNewsMainPicture))
+                    news.MainPicturePath = FileManagerService.SaveImageToFile(tempNewsMainPicture, "mainPicture" + news.Id);
+
+                if(tempNewsParagraphs != null)
+                {
+                    int i = 0;
+                    news.Paragraphs = tempNewsParagraphs;
+                    foreach(Paragraph p in tempNewsParagraphs)
+                    {
+                        if (!string.IsNullOrEmpty(p.PicturePath))
+                            news.Paragraphs.ElementAt(i).PicturePath = FileManagerService.SaveImageToFile(p.PicturePath, "paragraphPicture" + i + news.Id);
+                        i++;
+                    }
+                }
+
+                await _repository.AddNewsPictures(newsId, news.MainPicturePath, news.Paragraphs);
+
+            }
 
             if (newsId != null && newsId != "")
             {
