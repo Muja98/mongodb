@@ -57,7 +57,7 @@ namespace News4U_Web_API.Controllers
                     return Ok(new JsonResult("Wrong password"));
             }
             else
-                return Ok(new JsonResult("Non-existent email"));
+                return Ok(new JsonResult("Non-existent username"));
         }
 
         [HttpGet]

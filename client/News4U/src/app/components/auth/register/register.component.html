@@ -1,0 +1,54 @@
+<div class="container d-flex flex-wrap" style="padding-top: 130px;">
+    <div class="col-1"></div>
+    <div class="col-10 rounded pt-5 " >
+        <div class="loginContainer row flex-wrap justify-content-center flex-row  justify-content-center shadow pt-5 pb-5 pl-5 pr-4" style="background-color: rgb(255, 255, 255); border-radius: 30px; max-width: 900px; min-height: 550px;" >
+            <div class="col-12 col-lg-6 p-5" >
+                <div class="row">
+                    <h1 style="font-weight: 700;">Sign up</h1>
+                </div>
+                <div class="row border-bottom border-dark pt-4">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <input [(ngModel)]="name" class="loginInput"  placeholder="Name">
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.name}}</figcaption>
+                <div class="row border-bottom border-dark pt-4">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <input [(ngModel)]="surname" class="loginInput"  placeholder="Surname">
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.surname}}</figcaption>
+                <div class="row border-bottom border-dark pt-4">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    <input [(ngModel)]="username" type="text" style="border-width: 0px; border: none; outline: none; position: relative; left: 14px; bottom: 4px;" placeholder="Username" >
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.username}}</figcaption>
+                <div class="row border-bottom border-dark pt-4">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <input [(ngModel)]="password" class="loginInput"  placeholder="Password" type="password" > 
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.password}}</figcaption>
+                <div class="row border-bottom border-dark pt-4">
+                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                    <input [(ngModel)]="rpassword" class="loginInput" type="password"  placeholder="Repeat your password"  >
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.rpassword}}</figcaption>
+
+                <div class="row justify-content-center align-items-center pt-5 ">
+                  <div (click)="handleRedirectToLogin(true)" class="loginButton col-6 d-flex justify-content-center align-items-center pt-3 rounded ">
+                    <p style="color: white">Register</p>
+                  </div>
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.register}}</figcaption>
+
+            </div>
+            <div class="col-12 col-lg-6  d-flex flex-column" >
+                <div class="row p-5 justify-content-center">
+                    <img height="200px" width="200px" src="assets\logo_red.png" class="img-fluid"  alt="img">
+                </div>
+               <div (click)="handleRedirectToLogin(false)" class="row  justify-content-center " style="cursor: pointer;">
+                   <p  style="text-decoration: underline;" >I'm already member</p>
+               </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>

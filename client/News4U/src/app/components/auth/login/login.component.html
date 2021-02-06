@@ -1,0 +1,39 @@
+<div class="container d-flex flex-wrap" style="padding-top: 130px;">
+    <div class="col-1 "></div>
+    <div class="col-10 rounded pt-5 " >
+        <div class="loginContainer row flex-wrap justify-content-center flex-row  justify-content-center shadow pt-5 pb-5 pl-4 pr-4" style="background-color: rgb(255, 255, 255); border-radius: 30px; max-width: 900px; min-height: 500px;" >
+            <div class="col-12 col-lg-6  d-flex flex-column" >
+                <div class="row p-5 justify-content-center">
+                    <img height="200px" width="200px" src="assets\logo_red.png" class="img-fluid"  alt="img">
+                </div>
+               <div (click)="handleRedirectToRegister()" class="row  justify-content-center " style="cursor: pointer;">
+                   <p style="text-decoration: underline;" >Create an account</p>
+               </div>
+            </div>
+            <div class="col-12 col-lg-6 p-5" >
+                <div class="row ">
+                    <h1 style="font-weight: 700;">Sign up</h1>
+                </div>
+                <div class="row border-bottom border-dark pt-4">
+                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    <input class="loginInput" placeholder="Username" [(ngModel)]="username">
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.username}}</figcaption>
+                <div class="row border-bottom border-dark pt-4">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <input [(ngModel)]="password"  placeholder="Password" type="password" style="border-width: 0px; border: none; outline: none; position: relative; left: 24px; bottom: 4px;">
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.password}}</figcaption>
+                <div class="row " style="height: 70px;"></div>
+                <div class="row justify-content-start align-items-center pt-2 ">
+                  <div (click)="handleRedirect()" class="loginButton col-6 d-flex justify-content-center align-items-center pt-3 rounded ">
+                    <p style="color: white">Log In</p>
+                    <span *ngIf="setSpinner" style="color: white; position: relative; left: 10px; bottom: 6px;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <figcaption style="font-weight: 500;" class="text-danger">{{error.login}}</figcaption>
+            </div>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>

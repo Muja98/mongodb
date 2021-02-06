@@ -1,0 +1,29 @@
+@media (max-width: 991px) { 
+    div.loginContainer{
+        height: 900px;
+    }
+ }
+input:focus {
+    outline: none !important;
+}
+
+.loginInput
+{
+    border-width: 0px; 
+    border: none; 
+    outline: none;
+    position: relative;
+    left: 18px;
+     bottom: 4px;
+}
+
+.loginButton
+{
+    background-color: #8B0000;
+    cursor: pointer;
+}
+
+.loginButton:hover
+{
+    background-color: #8b000a;
+}
