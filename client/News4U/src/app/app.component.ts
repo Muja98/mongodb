@@ -1,4 +1,7 @@
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NavigationStart, Router } from '@angular/router';
 import { Component } from '@angular/core';
+import { faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +9,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  showMenu:boolean = true;
+  constructor(public router:Router, public service:AuthenticationService)
+  {
+    router.events.forEach((event:any) => {
+      if(event instanceof NavigationStart) {
+          if(event.url === "/login" || event.url === "/register")
+            this.showMenu = false;
+          else
+            this.showMenu = true;
+      }
+    });
+  }
+  
   title = 'News4U';
   private loggedIn:boolean = false;
 
@@ -13,7 +29,7 @@ export class AppComponent {
     let navLinks = [
       this.createNavLink("recent-news", "Najnovije vesti")
     ]
-    if(this.loggedIn) {
+    if(this.service.logedIn()) {
       const moreNavLinks = [
         this.createNavLink("create-news", "Dodaj vest"),
         this.createNavLink("my-news", "Moje vesti")
@@ -24,13 +40,18 @@ export class AppComponent {
   }
 
   public logText() {
-    if(this.loggedIn)
+    if(this.service.logedIn())
       return "Odjavite se"
     return "Prijavite se"
   }
 
+
   public logInTemp() {
-    this.loggedIn = !this.loggedIn;
+    if(this.service.logedIn())
+      this.service.logout();
+      else
+    this.router.navigate(['/login'])
+   
   }
 
   private createNavLink(linkStr:string, textStr:string) {
