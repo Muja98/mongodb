@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using News4U_Data_Provider.Entities;
 using News4U_Data_Provider.Services.RepositoryContracts;
+using News4U_Helpers;
 
 namespace News4U_Web_API.Controllers
 {
@@ -22,7 +23,7 @@ namespace News4U_Web_API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllNews([FromQuery] string title, [FromQuery] string field, [FromQuery] string tag, int from, int to)
+        public async Task<ActionResult> GetAllNews([FromQuery] string title, [FromQuery] string field, [FromQuery] string tag, [FromQuery] int from, [FromQuery] int to)
         {
             var news = await _repository.GetAllNews(title, field, tag, from, to);
             return Ok(news);
@@ -68,6 +69,14 @@ namespace News4U_Web_API.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Route("{newsId}/related-news")]
+        public async Task<ActionResult> GetRelatedNews(string newsId)
+        {
+            var result = await _repository.GetRelatedNews(newsId);
+            return Ok(result);
+        }
+        
         [HttpPost]
         [Route("{newsId}/survey/{surveyIndex}")]
         public async Task<ActionResult> VoteSurvey(string newsId, int surveyIndex)

@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using News4U_Data_Provider.Entities;
 using System.Threading.Tasks;
 using MongoDB.Driver.Linq;
+using System.Linq;
 
 namespace News4U_Data_Provider.Services.RepositoryServices
 {
@@ -59,7 +60,7 @@ namespace News4U_Data_Provider.Services.RepositoryServices
         {
             var query = _news.AsQueryable();
 
-            if(!string.IsNullOrEmpty(field))
+            if (!string.IsNullOrEmpty(field))
             {
                 query = query.Where(n => n.Field == field);
             }
@@ -74,21 +75,56 @@ namespace News4U_Data_Provider.Services.RepositoryServices
                 query = query.Where(n => n.Title.ToLower().Contains(title.ToLower()));
             }
 
-            query = query.Skip(from);
+            query = query.OrderByDescending(n => n.DateTime).Skip(from).Take(to);
 
-            List<News> news = await query.ToListAsync();
+            List<News> result = await query.ToListAsync();
 
-            List<News> result = new List<News>();
+            return result;
+        }
 
+        bool CompareTags(List<string> tags1, List<string> tags2)
+        {
+            bool found = false;
             int index = 0;
 
-            while (index < to && index < news.Count)
+            while (!found && index < tags1.Count)
             {
-                result.Add(news[index]);
+                if (tags2.Contains(tags1[index]))
+                    found = true;
                 index++;
             }
 
-            return result ;
+            return found;
+        }
+
+        public async Task<IEnumerable<News>> GetRelatedNews(string newsId)
+        {
+            List<News> result = new List<News>();
+
+            string field = _news.AsQueryable().Where(n => n.Id == newsId).Select(n => n.Field).FirstOrDefault();
+            List<string> tags = _news.AsQueryable().Where(n => n.Id == newsId).Select(n => n.Tags).FirstOrDefault();
+
+            if(tags.Count > 0 )
+            {
+                List<News> newsWithCommonTags = await _news.AsQueryable()
+                .Where(n => n.Id != newsId && CompareTags(tags, n.Tags)) //(tags.Intersect(n.Tags)).Count() > 0)
+                .Take(10)
+                .ToListAsync();
+                 
+                result.AddRange(newsWithCommonTags);
+            }
+
+            if(result.Count < 10)
+            {
+                List<News> newsWithSameField = await _news.AsQueryable()
+                .Where(n => n.Id != newsId && n.Field == field)
+                .Take(10 - result.Count)
+                .ToListAsync();
+
+                result.AddRange(newsWithSameField);
+            }
+
+            return result;
         }
 
         public async Task VoteSurvey(string newsId, int surveyIndex)
