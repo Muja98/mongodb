@@ -56,6 +56,19 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return editorId;
         }
 
+        public async Task AddNewsPictures(string newsId, string mainPicturePath, List<Paragraph> paragraphs)
+        {
+            var filter = Builders<News>.Filter.Eq("Id", newsId);
+            var update = Builders<News>.Update;
+            UpdateDefinition<News> set = null;
+            if (!string.IsNullOrEmpty(mainPicturePath))
+                set = update.Set("MainPicturePath", mainPicturePath);
+            if (paragraphs != null)
+                set = (set != null) ? set.Set("Paragraphs", paragraphs) : update.Set("Paragraphs", paragraphs);
+
+            await _news.UpdateOneAsync(filter, set);
+        }
+
         public async Task<IEnumerable<News>> GetAllNews(string title, string field, string tag, int from, int to)
         {
             var query = _news.AsQueryable();
@@ -157,7 +170,5 @@ namespace News4U_Data_Provider.Services.RepositoryServices
                 await _news.ReplaceOneAsync(x => x.Id == newsId, news);
             }
         }
-
-       
     }
 }

@@ -14,7 +14,7 @@ namespace News4U_Helpers
             byte[] bytes = Convert.FromBase64String(base64Image);
             string imagePath = _folderPrefix + pathPosfix + ".png";
             File.WriteAllBytes(imagePath, bytes);
-            return imagePath;
+            return pathPosfix;
         }
 
         public static string LoadImageFromFile(string pathPostfix)
