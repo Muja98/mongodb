@@ -120,10 +120,10 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             if(tags.Count > 0 )
             {
                 List<News> newsWithCommonTags = await _news.AsQueryable()
-                .Where(n => n.Id != newsId && CompareTags(tags, n.Tags)) //(tags.Intersect(n.Tags)).Count() > 0)
-                .Take(10)
-                .ToListAsync();
-                 
+                    .Where(n => n.Id != newsId && n.Tags.Any(t => tags.Contains(t)))
+                    .Take(10)
+                    .ToListAsync();
+
                 result.AddRange(newsWithCommonTags);
             }
 
