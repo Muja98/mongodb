@@ -13,4 +13,8 @@ export class NewsService {
   getSpecificNews(newsId:string) {
     return this.http.get<News>(URL + "/api/news/" + newsId);
   }
+
+  getRelatedNews(newsId:string) {
+    return this.http.get<News[]>(URL + "/api/news/" + newsId + "/related-news");
+  }
 }
