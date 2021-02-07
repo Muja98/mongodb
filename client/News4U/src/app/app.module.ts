@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component'
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import { MainPageComponent } from './components/main-page/main-page.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {FormsModule} from '@angular/forms';
     SpecificNewsComponent,
     LoadingScreenComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    MainPageComponent
   ],
   imports: [
     FormsModule,
@@ -28,6 +30,7 @@ import {FormsModule} from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     RouterModule.forChild([
+      {path: '', component:MainPageComponent},
       {path: 'specific-news/:newsId', component: SpecificNewsComponent},
       {path: 'loading', component :LoadingScreenComponent},
       {path: 'login', component :LoginComponent},
