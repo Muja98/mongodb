@@ -53,7 +53,8 @@ export class RegisterComponent implements OnInit {
         Password:this.password
       }
       
-      this.error.register = this.service.register(user);
+      this.service.register(user);
+      this.error.register = "Could not register"
     }
     else
     {

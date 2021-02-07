@@ -13,34 +13,7 @@ export class AuthenticationService {
 
   constructor(private http:HttpClient,private router:Router){}
 
-   login(username,password) 
-   {
-      let data = {
-          Username: username,
-          Password: password
-      }
-      let bol:string;
-      this.http.post(URL+'/api/editors/login', data).subscribe((result:any) => {
-        if(typeof result.value !== 'undefined')
-        {
-          if(result.value == "Wrong password")
-          {
-            bol = "Wrong password";
-          }
-          else if (result.value == "Non-existent username")
-          {
-            bol = "Non-existent username";
-          }
-          else {
-            var token:any = { accessToken: result.value }
-            this.geStudentFromToken(token)
-            this.router.navigate(['/'])
-          }
-        }
-       
-      });
-      return bol;
-   }
+   
   
   logedIn()
   {
@@ -54,14 +27,50 @@ export class AuthenticationService {
   {
       let mess = "";
       this.http.post(URL+'/api/editors', newUser).subscribe(
-        data => {
-            this.router.navigate(['/login']);
-        },
-        error => {
-            mess = "Failed to register"            
-        });
-      return mess;
+        (result:any)=>  {
+          if(typeof result.value !== 'undefined')
+          {
+            if(result.value !== 'Email taken') 
+              this.router.navigate(['/login']);
+          }
+           
+        })
+
+      
   }
+
+  login(username,password) 
+   {
+      let data = {
+          Username: username,
+          Password: password
+      }
+
+      let str:string = "";
+
+       this.http.post(URL+'/api/editors/login', data).subscribe((result:any) => {
+        if(typeof result.value !== 'undefined')
+        {
+          if(result.value.includes("Wrong"))
+          {
+            str = "Wrong password";
+          }
+          else if (result.value.includes("Non"))
+          {
+            str = "Non-existent username";
+          }
+          else {
+            var token:any = { accessToken: result.value }
+            this.geStudentFromToken(token)
+            this.router.navigate(['/'])
+          }
+        }
+       
+      });
+      
+      return str;
+
+   }
   
   logout()
   {
