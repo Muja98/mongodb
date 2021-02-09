@@ -140,15 +140,22 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return result;
         }
 
-        public async Task VoteSurvey(string newsId, int surveyIndex)
+        public async Task VoteSurvey(string newsId, string surveyAnswerName)
         {
-            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
-            
-            if(news != null && news.Survey != null)
-            {
-                news.Survey.AnswerValue[surveyIndex].Value++;
-                await _news.ReplaceOneAsync(x => x.Id == newsId, news);
-            }
+            //News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            //news.Survey.AnswerValue[surveyIndex].Value++;
+
+            var filter = Builders<News>.Filter.Where(x => x.Id == newsId && x.Survey.AnswerValue.Any(i => i.Name == surveyAnswerName));
+            var update = Builders<News>.Update.Inc(x => x.Survey.AnswerValue[-1].Value, 1);
+            await _news.UpdateOneAsync(filter, update);
+
+            //News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+
+            //if(news != null && news.Survey != null)
+            //{
+            //    news.Survey.AnswerValue[surveyIndex].Value++;
+            //    await _news.ReplaceOneAsync(x => x.Id == newsId, news);
+            //}
         }
 
         public async Task<IEnumerable<NamedValue>> GetSurveyResult(string newsId)

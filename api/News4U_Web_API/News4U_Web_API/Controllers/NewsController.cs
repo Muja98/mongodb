@@ -130,11 +130,11 @@ namespace News4U_Web_API.Controllers
             return Ok(result);
         }
         
-        [HttpPost]
-        [Route("{newsId}/survey/{surveyIndex}")]
-        public async Task<ActionResult> VoteSurvey(string newsId, int surveyIndex)
+        [HttpPatch]
+        [Route("{newsId}/survey/{surveyAnswerName}")]
+        public async Task<ActionResult> VoteSurvey(string newsId, string surveyAnswerName)
         {
-            await _repository.VoteSurvey(newsId, surveyIndex);
+            await _repository.VoteSurvey(newsId, surveyAnswerName);
             return Ok();
         }
 
