@@ -39,9 +39,9 @@ namespace News4U_Web_API.Controllers
 
         [HttpGet]
         [Route("{newsId}")]
-        public async Task<ActionResult> GetNews(string newsId)
+        public async Task<ActionResult> GetNews(string newsId, [FromQuery] int commentsCount)
         {
-            var news = await _repository.GetNews(newsId);
+            var news = await _repository.GetNews(newsId, commentsCount);
             if(!string.IsNullOrEmpty(news.MainPicturePath))
             {
                 news.MainPicturePath = FileManagerService.LoadImageFromFile(news.MainPicturePath);
@@ -148,10 +148,18 @@ namespace News4U_Web_API.Controllers
 
         [HttpPost]
         [Route("{newsId}/comment")]
-        public async Task<IActionResult> AddNewComment(string newsId, [FromBody] Comment comment)
+        public async Task<ActionResult> AddNewComment(string newsId, [FromBody] Comment comment)
         {
             await _repository.AddNewComment(newsId, comment);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{newsId}/get-comments")]
+        public async Task<ActionResult> GetMoreComments(string newsId, [FromQuery] int from, [FromQuery] int count)
+        {
+            IEnumerable<Comment> comments = await _repository.LoadMoreComments(newsId, from, count);
+            return Ok(comments);
         }
     }
 }
