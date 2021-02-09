@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="sn-related" *ngIf="relatedNews && relatedNews.length > 0">
-                        <h2>Related News</h2>
+                        <h2>Povezane vesti</h2>
                         <div class="row sn-slider">
                             <div class="col-md-4" *ngFor="let news of relatedNews">
                                 <div class="sn-img">
@@ -74,6 +74,45 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="sn-related">
+                        <h2>Comments</h2>
+                        <div class="second py-2 px-2" *ngIf="!hasCommented">
+                            <div class="mb-3">
+                                <label for="nameEnter" class="form-label">Ime</label>
+                                <input type="text" class="form-control" id="nameEnter" placeholder="Unesite ime" [(ngModel)]="newCommentWriter" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="commentEnter" class="form-label">Komentar</label>
+                                <textarea class="enter-comment" placeholder="Unesite komentar" id="commentEnter" rows="3" [(ngModel)]="newComment" ></textarea>
+                            </div>
+                            <button 
+                                type="button" class="btn btn-outline-primary"
+                                [disabled]="!canComment()" (click)="handleAddComment()">
+                                Pošalji
+                            </button>
+                        </div>
+                        <div class="second py-2 px-2" *ngIf="hasCommented">
+                            <strong>Hvala na komentaru!</strong>
+                        </div>
+                        <div class="second py-2 px-2" *ngFor="let comment of news.comments"> 
+                            <span class="text1">{{comment.text}}</span>
+                            <div class="d-flex justify-content-between py-1 pt-2 comment-writer">
+                                <div><span class="text2">{{comment.authorsName}}</span></div>
+                                <div>
+                                    <span class="thumbup">
+                                        <i class="fa fa-calendar-alt"></i>
+                                    </span>
+                                    <span class="text4">{{getProperDateTime(comment.dateTime)}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button 
+                            type="button" class="btn btn-outline-primary" (click)="handleLoadMoreComments()"
+                            [disabled]="noMoreComments" *ngIf="!noMoreComments">
+                            Učitaj još komentara
+                        </button>
                     </div>
                 </div>
 
@@ -142,6 +181,8 @@
         </div>
     </div>
     <!-- Single News End--> 
+
+    
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
