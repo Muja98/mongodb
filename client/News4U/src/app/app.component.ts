@@ -27,7 +27,7 @@ export class AppComponent {
 
   public getNavLinks() {
     let navLinks = [
-      this.createNavLink("recent-news", "Najnovije vesti")
+      this.createNavLink("", "Najnovije vesti")
     ]
     if(this.service.logedIn()) {
       const moreNavLinks = [
@@ -37,6 +37,12 @@ export class AppComponent {
       navLinks = navLinks.concat(moreNavLinks)
     }
     return navLinks;
+  }
+
+  public handleRedirect(path:string)
+  {
+    this.router.navigate([path])
+   
   }
 
   public logText() {

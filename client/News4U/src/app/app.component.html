@@ -5,7 +5,9 @@
         <div class="col-5  d-flex  pt-4 pl-5">
           <!-- <p style="color: white; font-weight: 500; cursor: pointer; font-size: 18px;">Najnovije Vesti</p> -->
           <!-- <li *ngFor="let link of getNavLinks(); index as i"> -->
-            <p style="color: white; font-weight: 500; cursor: pointer; font-size: 18px; margin-right: 20px;" *ngFor="let link of getNavLinks()">{{link.text}}</p>
+            <div *ngFor="let link of getNavLinks()">
+              <p (click)="handleRedirect(link.link)" style="color: white; font-weight: 500; cursor: pointer; font-size: 18px; margin-right: 20px;" >{{link.text}}</p>
+            </div>
           <!-- </li> -->
         </div>
         <div class="col-5 ">

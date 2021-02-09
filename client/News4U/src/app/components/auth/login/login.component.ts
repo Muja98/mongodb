@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
     login:""
   }
 
+  public log;
+
   constructor(public router:Router, public service:AuthenticationService) { }
 
   ngOnInit(): void {
@@ -30,9 +32,14 @@ export class LoginComponent implements OnInit {
     if(this.password.length===0){this.error.password = "Please fill the Password input"} 
     else{this.error.password = ""}
     if(this.username.length===0 || this.password.length==0)return;
-    this.setSpinner = true;
+    
+    
+    this.log =  this.service.login(this.username,this.password);
+    if(this.log.length !== 0)
+      this.setSpinner = true;
+    else
+      this.log = "Could not log in"
 
-    this.error.login = this.service.login(this.username,this.password);
   }
 
   handleRedirectToRegister()

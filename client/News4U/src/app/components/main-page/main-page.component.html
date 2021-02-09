@@ -1,0 +1,179 @@
+<div class="container-fluid  p-5">
+    <div class="row justify-content-between ">
+        
+        <div  class="col-3 ">
+          <div class="row rounded" style="background-color: white;">
+            <div  class="col pl-4 pr-4">
+                <div class="row rounded-top p-2  justify-content-center" style="position: relative; right: 10px; background-color: #8B0000; color: white; width: 460px;">
+                    <h5>Izdvajamo</h5>
+                </div>
+                <div *ngIf="this.newsArray.length>1" (click)="handleRedirectSpecificNews(this.newsArray[1].id)" class="row pb-3 mt-3" style="cursor: pointer;">
+                    <div class="col">
+                        <div class="row">
+                            <img width="90%" height="100px" src="assets\poplava.jpg">
+                        </div>
+                    </div>
+                    <div class="col pl-4">
+                        <div class="row">
+                         <p style="font-size: 15px; font-weight: 500;">"{{this.newsArray[1].title}}"</p>
+                        </div>
+                        <div class="row">
+                            <p style="color: gray; font-size: 11px;">
+                            {{this.newsArray[1].paragraphs[0].text.slice(0,150)}}...
+                           </p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="this.newsArray.length>2" (click)="handleRedirectSpecificNews(this.newsArray[2].id)" class="row pb-3 mt-3" style="cursor: pointer;">
+                    <div class="col">
+                        <div class="row">
+                            <img width="90%" height="100px" src="assets\poplava.jpg">
+                        </div>
+                    </div>
+                    <div class="col pl-4">
+                        <div class="row">
+                         <p style="font-size: 15px; font-weight: 500;">"{{this.newsArray[2].title}}"</p>
+                        </div>
+                        <div class="row">
+                            <p *ngIf="this.newsArray[2].paragraphs.length>0" style="color: gray; font-size: 11px;">
+                            {{this.newsArray[2].paragraphs[0].text.slice(0,150)}}...
+                           </p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="this.newsArray.length==0" class="row p-2 justify-content-center">
+                    <h3>Trenutno nema dovoljno vesti!</h3>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+              <!-- MAIN -->
+        <div class="input-group mb-5">
+            <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Search for news..." />
+            <button (click)="handleClickSearch()"   style="width: 80px; background-color: #8B0000;"  class="btn btn-info" type="button" id="button-addon2"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+
+        <div *ngIf="this.newsArray.length>0" (click)="handleRedirectSpecificNews(this.newsArray[0].id)" class="row shadow rounded" style=" cursor: pointer;">
+            <div class="col pl-5 pr-5 pt-3 ">
+                <div class="row">
+                    <img width="100%" height="350px" src="assets\poplava.jpg">
+                </div>
+                <div class="row  pt-2">
+                    <div class="col">
+                        <div class="row">
+                            <h2>
+                                "{{this.newsArray[0].title}}" (VIDEO)
+                            </h2>
+                        </div>
+                        <div class="row">
+                            <p style="color: gray;">
+                                {{this.newsArray[0].paragraphs[0].text.slice(0,250)}}...
+                            </p>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        <div *ngFor="let el of newsArray|slice:3; index as i" class="row shadow rounded pl-4 pr-4 pt-3 pb-3 mt-5" style="background-color: white; cursor: pointer;">
+            <div (click)="handleRedirectSpecificNews(this.newsArray[i+3].id)" *ngIf="handleCheckNumber(i,0)" class="container d-flex flex-row">
+                <div class="col">
+                    <div class="row">
+                        <img width="100%" height="240px" src="assets\poplava.jpg">
+                    </div>
+                </div>
+                <div class="col pl-5">
+                    <div class="row">
+                     <h5>"{{this.newsArray[i+3].title}}"</h5>
+                    </div>
+                    <div class="row">
+                        <p style="color: gray;">
+                        {{this.newsArray[i+3].paragraphs[0].text.slice(0,250)}}...
+                       </p>
+                    </div>
+                </div>
+            </div>
+            <div (click)="handleRedirectSpecificNews(this.newsArray[i+3].id)" *ngIf="handleCheckNumber(i,1)" class="container d-flex flex-row">
+                <div class="col pr-5">
+                    <div class="row">
+                     <h5>"{{this.newsArray[i+3].title}}"</h5>
+                    </div>
+                    <div class="row">
+                        <p style="color: gray;">
+                        {{this.newsArray[i+3].paragraphs[0].text.slice(0,200)}}
+                       </p>
+                    </div>
+                </div>
+                <div class="col mt-1">
+                    <div class="row">
+                        <img width="100%" height="240px" src="assets\poplava.jpg">
+                    </div>
+                </div>
+                <div class="col pl-5">
+                    <div class="row">
+                        <p style="color: gray;">
+                        {{this.newsArray[i+3].paragraphs[0].text.slice(200,450)}}...
+                       </p>
+                    </div>
+                </div>
+            </div>
+            <div (click)="handleRedirectSpecificNews(this.newsArray[i+3].id)" *ngIf="handleCheckNumber(i,2)" class="container d-flex flex-row">
+                <div class="col pr-5">
+                    <div class="row">
+                     <h5>"{{this.newsArray[i+3].title}}"</h5>
+                    </div>
+                    <div class="row">
+                        <p style="color: gray;">
+                        {{this.newsArray[i+3].paragraphs[0].text.slice(0,250)}}...
+                       </p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <img width="100%" height="240px" src="assets\poplava.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="this.newsArray.length>5" class="row justify-content-center align-items-center pt-5 ">
+            <div (click)="handleLoadMore()"  class="loginButton col-4 d-flex justify-content-center align-items-center pt-3 rounded ">
+              <p style="color: white; font-weight: 500;">Load More</p>
+            </div>
+        </div>
+
+        <div *ngIf="this.newsArray.length==0" class="row justify-content-center align-items-center ">
+            <h2>Trenutno nema dovoljno vesti!</h2>
+        </div>
+
+        </div>
+
+       
+        <div class="col-3 ">
+                <div (click)="handleSetSelected(-1)" class="row p-2 rounded-top justify-content-center" style="background-color: #8B0000; cursor: pointer;">
+                    <h5 style="color: white;">Oblasti</h5>
+                </div><!--oblastiArray-->
+                <div *ngFor="let item of oblastiArray; index as i" style="font-weight: 500; font-size: 20px;">
+                    <div *ngIf="i===selected" class="row pt-2 pl-2 pb-2" style="background-color: #8B0000; color: white; cursor: pointer;">
+                        {{item}}
+                    </div>
+                    <div (click)="handleSetSelected(i)" *ngIf="i!==selected" class="row pt-2 pl-2 pb-2" style="background-color: white; color: black; cursor: pointer;">
+                        {{item}}
+                    </div>
+                </div>
+
+                <div class="row flex-wrap mt-4">
+                    <div *ngFor="let item of tagArray; index as i"> 
+                        <div  *ngIf="selectedTag === i"  (click)="handleAddClick(i)"  class="rounded border ml-2 mt-2 d-flex justify-content-center align-items-center p-2" style="cursor: pointer;  height: 40px; width:auto; background-color: #8B0000; color: white;">
+                            <p style="font-weight: 500;">{{item}}</p>
+                        </div>
+                        <div  *ngIf="selectedTag !== i"  (click)="handleAddClick(i)"  class="rounded border ml-2 mt-2 d-flex justify-content-center align-items-center p-2" style="cursor: pointer;  height: 40px; width:auto; background-color: white; color: black; ">
+                            <p style="font-weight: 500;">{{item}}</p>
+                        </div>
+                    </div>
+                    
+                </div>
+        </div>
+    </div>
+</div>

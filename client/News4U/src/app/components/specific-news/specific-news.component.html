@@ -15,7 +15,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
 
-<div class="wrapper">
+<div class="wrapper" *ngIf="isLoaded()">
     <!-- Top Bar Start -->
     <div class="top-bar">
         <div class="container">
@@ -23,7 +23,7 @@
                 <div class="col-md-6">
                     <div class="tb-contact">
                         <p><i class="fas fa-pen"></i>Piše: Pera Perić</p>
-                        <p><i class="fas fa-calendar-alt"></i>+012 345 6789</p>
+                        <p><i class="fas fa-calendar-alt"></i>{{news.dateTime}}</p>
                     </div>
                 </div>
             </div>
@@ -55,42 +55,21 @@
                             <h1 class="sn-title">{{news.title}}</h1>
                             <div *ngFor="let paragraph of news.paragraphs">
                                 <h3>{{paragraph.subTitle}}</h3>
+                                <img *ngIf="paragraph.picturePath" [src]="'data:image/png;base64,' + paragraph.picturePath" />
                                 <p>{{paragraph.text}}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="sn-related">
+
+                    <div class="sn-related" *ngIf="relatedNews && relatedNews.length > 0">
                         <h2>Related News</h2>
                         <div class="row sn-slider">
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngFor="let news of relatedNews">
                                 <div class="sn-img">
-                                    <img src="img/news-350x223-1.jpg" />
+                                    <img *ngIf="news.mainPicturePath" [src]="'data:image/png;base64,' + news.mainPicturePath"/>
+                                    <img *ngIf="!news.mainPicturePath" src="../../../assets/logo_red.png"/>
                                     <div class="sn-title">
-                                        <a href="">Interdum et fames ac ante</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="sn-img">
-                                    <img src="img/news-350x223-2.jpg" />
-                                    <div class="sn-title">
-                                        <a href="">Interdum et fames ac ante</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="sn-img">
-                                    <img src="img/news-350x223-3.jpg" />
-                                    <div class="sn-title">
-                                        <a href="">Interdum et fames ac ante</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="sn-img">
-                                    <img src="img/news-350x223-4.jpg" />
-                                    <div class="sn-title">
-                                        <a href="">Interdum et fames ac ante</a>
+                                        <a [href]="'specific-news/' + news.id">{{news.title}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -104,19 +83,29 @@
                             <h4 class="sw-title">{{news.survey.question}}</h4>
                             <div class="news-list">
                                 <div class="nl-item" *ngFor="let namedValue of news.survey.answerValue; index as i">
-                                    <div class="nl-title">
+                                    <div class="nl-title" *ngIf="!votedSurvey">
                                         <input 
                                             class="form-check-input" type="radio" name="surveyAnswers" id="{{i}}" 
-                                            value="{{i}}" (change)=onSurveyAnswerChange(i)>
+                                            value="{{i}}" [(ngModel)]="surveyAnswer">
                                         <label class="form-check-label" for="{{i}}">
                                             {{namedValue.name}}
                                         </label>
                                     </div>
+                                    <div style="width: 100%" *ngIf="votedSurvey">
+                                        <div class="nl-title" style="width: 100%;">
+                                            {{namedValue.name}}
+                                        </div>
+                                        <div class="nl-title" style="width: 100%;">
+                                            <ngb-progressbar textType="white" [value]="calculateSurveyProgressbarPercentage(namedValue.value)"> 
+                                                {{namedValue.value}} 
+                                            </ngb-progressbar>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <button 
-                                type="button" class="btn btn-outline-primary"
-                                [disabled]="!surveyAnswer || surveyAnswer.length <= 0">
+                                type="button" class="btn btn-outline-primary" (click)="handleVoteSurvey()"
+                                [disabled]="surveyAnswer < 0" *ngIf="!votedSurvey">
                                 Glasajte
                             </button>
                         </div>
@@ -126,12 +115,12 @@
                                 <div class="tab-content">
                                     <h4 class="sw-title">{{news.chart.description}}</h4>
                                     <div id="featured" class="container tab-pane active">
-                                        <div class="tn-news" *ngFor="let pieceOfData of news.chart.data">
-                                            <div class="col-3">
-                                                {{pieceOfData.name}} 
+                                        <div style="width: 100%; margin-bottom: 20px;" *ngFor="let pieceOfData of news.chart.data">
+                                            <div class="nl-title" style="width: 100%;">
+                                                {{pieceOfData.name}}
                                             </div>
-                                            <div class="tn-title" style="width: 100%;">
-                                                <ngb-progressbar textType="white" [value]="calculateProgressbarPercentage(pieceOfData.value)"> 
+                                            <div class="nl-title" style="width: 100%;">
+                                                <ngb-progressbar textType="white" [value]="calculateChartProgressbarPercentage(pieceOfData.value)"> 
                                                     {{pieceOfData.value}} 
                                                 </ngb-progressbar>
                                             </div>
@@ -162,4 +151,9 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+</div>
+<div class="container d-flex justify-content-center align-items-center" style="height: 300px;" *ngIf="!isLoaded()">
+    <div class="spinner-border" role="status" >
+      <span class="sr-only">Loading...</span>
+    </div>
 </div>
