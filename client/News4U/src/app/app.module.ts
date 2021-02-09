@@ -1,3 +1,4 @@
+import { CreateParagraphComponent } from './components/create-paragraph/create-paragraph.component';
 import { CreateNewsComponent } from './components/create-news/create-news.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
@@ -19,7 +20,9 @@ import {FormsModule} from '@angular/forms';
     SpecificNewsComponent,
     LoadingScreenComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    CreateNewsComponent,
+    CreateParagraphComponent
   ],
   imports: [
     FormsModule,
@@ -33,7 +36,8 @@ import {FormsModule} from '@angular/forms';
       {path: 'create-news', component: CreateNewsComponent},
       {path: 'loading', component :LoadingScreenComponent},
       {path: 'login', component :LoginComponent},
-      {path: 'register', component :RegisterComponent}
+      {path: 'register', component :RegisterComponent},
+      {path: 'create-paragraph', component: CreateParagraphComponent},
     ])
   ],
   providers: [],
