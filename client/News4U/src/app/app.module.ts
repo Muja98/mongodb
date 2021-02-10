@@ -12,6 +12,7 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import { MainPageComponent } from './components/main-page/main-page.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MainPageComponent } from './components/main-page/main-page.component';
     LoadingScreenComponent,
     RegisterComponent,
     LoginComponent,
-    MainPageComponent
+    MainPageComponent,
+    ProfileComponent
   ],
   imports: [
     FormsModule,
@@ -34,7 +36,9 @@ import { MainPageComponent } from './components/main-page/main-page.component';
       {path: 'specific-news/:newsId', component: SpecificNewsComponent},
       {path: 'loading', component :LoadingScreenComponent},
       {path: 'login', component :LoginComponent},
-      {path: 'register', component :RegisterComponent}
+      {path: 'register', component :RegisterComponent},
+      {path: 'profile',component :ProfileComponent},
+      {path: 'profile/:editorId',component :ProfileComponent}
     ])
   ],
   providers: [],

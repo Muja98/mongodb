@@ -17,5 +17,6 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
         public Task<string> GetEditorPassword(string username);
         Task AddNews(string editorId, string newsId);
         Task DeleteNews(string editorId, string newsId);
+        Task UpdateUser(string editorId, string propertyName, string propertyValue);
     }
 }

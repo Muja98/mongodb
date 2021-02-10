@@ -92,6 +92,10 @@ export class AuthenticationService {
       return user;
   }
 
+  getStudent(editorId:string)
+  {
+    return this.http.get(URL+'/api/editors/'+editorId);
+  }
 
 
 }
