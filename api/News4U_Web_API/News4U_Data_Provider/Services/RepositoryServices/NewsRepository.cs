@@ -14,6 +14,7 @@ namespace News4U_Data_Provider.Services.RepositoryServices
 {
     public class NewsRepository: INewsRepository
     {
+        private static readonly List<string> newsFields = new List<string>() { "Sport", "Hronika", "Korona", "Vremenska prognoza" };
         private readonly IMongoCollection<News> _news;
 
         public NewsRepository(INews4UMongoIDatabaseSettings settings)
@@ -141,6 +142,11 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             }
 
             return result;
+        }
+
+        public IEnumerable<string> GetAvailableNewsFields()
+        {
+            return newsFields;
         }
 
         public async Task VoteSurvey(string newsId, string surveyAnswerName)

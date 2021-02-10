@@ -129,6 +129,14 @@ namespace News4U_Web_API.Controllers
             var result = await _repository.GetRelatedNews(newsId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("available-fields")]
+        public ActionResult GetAvailableNewsFields()
+        {
+            var newsFields = _repository.GetAvailableNewsFields();
+            return Ok(newsFields);
+        }
         
         [HttpPatch]
         [Route("{newsId}/survey/{surveyAnswerName}")]
