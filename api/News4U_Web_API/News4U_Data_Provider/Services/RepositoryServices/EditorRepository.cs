@@ -73,5 +73,12 @@ namespace News4U_Data_Provider.Services.RepositoryServices
 
             await _editors.UpdateOneAsync(editorFilter, arrayUpdate);
         }
+
+        public async Task UpdateUser(string editorId, string propertyName, string propertyValue)
+        {
+            var query = Builders<Editor>.Filter.Eq("Id", editorId);
+            var update = Builders<Editor>.Update.Set(propertyName, propertyValue); 
+            await _editors.UpdateOneAsync(query, update);
+        }
     }
 } 

@@ -13,6 +13,9 @@
         <div class="col-5 ">
           <img style="position: relative; bottom: 20px;" width="115px" height="110px" src="\assets\logo.png">
         </div>
+        <div (click)="handleViewProfile()" *ngIf="this.service.logedIn()" class="col-1 d-flex justify-content-center pt-4">
+          <p style="color: white; font-weight: 500; cursor: pointer; font-size: 18px;">Profile</p>
+        </div>
         <div class="col-1 pt-4">
           <p style="color: white; font-weight: 500; cursor: pointer; font-size: 18px;" (click)="logInTemp()">{{logText()}}</p>
         </div>

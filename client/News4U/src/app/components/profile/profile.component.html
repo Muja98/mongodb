@@ -1,0 +1,38 @@
+<div style="height: 400px;" class="container rounded shadow-lg mt-5 p-5">
+    <div class="row">
+        <div class="col">
+            <h2 style="color: #8B0000;">Username:</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input [disabled]="!edit" style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.username" >
+        </div>
+    </div>
+    <div class="row justify-content-between">
+        <div class="col">
+            <h2 style="color: #8B0000;">First name:</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input [disabled]="!edit" style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.firstName" >
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2 style="color: #8B0000;">Last name:</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <input [disabled]="!edit" style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.lastName" >
+        </div>
+    </div>
+        <img style="position: relative; left: 600px; bottom: 240px;" src="assets\logo_red.png">
+    <div *ngIf="edit" class="row" style="position: relative; bottom: 160px;">
+        <div class="col">
+            <button class="btn" style="background-color: #8B0000; color: white; font-weight: 500;">Sačuvaj promene</button>
+        </div>
+    </div>
+</div>

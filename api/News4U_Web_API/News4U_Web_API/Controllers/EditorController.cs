@@ -67,5 +67,13 @@ namespace News4U_Web_API.Controllers
             var editor = await _repository.GetEditor(editorId);
             return Ok(editor);   
         }
+
+        [HttpPatch]
+        [Route("{editorId}")]
+        public async Task<ActionResult> UpdateUser(string editorId, [FromBody] EditorUpdateDTO editorUpdate)
+        {
+            await _repository.UpdateUser(editorId, editorUpdate.PropertyName, editorUpdate.PropertyValue);
+            return Ok();
+        }
     }
 }
