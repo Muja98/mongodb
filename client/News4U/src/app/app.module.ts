@@ -1,3 +1,4 @@
+import { EditNewsComponent } from './components/create-news/edit-news/edit-news.component';
 import { CreateParagraphComponent } from './components/create-paragraph/create-paragraph.component';
 import { CreateNewsComponent } from './components/create-news/create-news.component';
 import { LoginComponent } from './components/auth/login/login.component';
@@ -28,7 +29,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     CreateNewsComponent,
     CreateParagraphComponent,
     MainPageComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditNewsComponent
   ],
   imports: [
     FormsModule,
@@ -48,7 +50,8 @@ import { ProfileComponent } from './components/profile/profile.component';
       {path: 'register', component :RegisterComponent},
       {path: 'create-paragraph', component: CreateParagraphComponent},
       {path: 'profile',component :ProfileComponent},
-      {path: 'profile/:editorId',component :ProfileComponent}
+      {path: 'profile/:editorId',component :ProfileComponent},
+      {path: 'edit-news/:newsId', component: EditNewsComponent}
     ])
   ],
   providers: [],

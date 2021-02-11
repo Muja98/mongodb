@@ -100,21 +100,6 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return result;
         }
 
-        bool CompareTags(List<string> tags1, List<string> tags2)
-        {
-            bool found = false;
-            int index = 0;
-
-            while (!found && index < tags1.Count)
-            {
-                if (tags2.Contains(tags1[index]))
-                    found = true;
-                index++;
-            }
-
-            return found;
-        }
-
         public async Task<IEnumerable<News>> GetRelatedNews(string newsId)
         {
             List<News> result = new List<News>();

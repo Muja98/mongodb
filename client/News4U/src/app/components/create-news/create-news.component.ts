@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './create-news.component.html',
   styleUrls: ['./create-news.component.css']
 })
+
 export class CreateNewsComponent implements OnInit {
   public news:News;
 
