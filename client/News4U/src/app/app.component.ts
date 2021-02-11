@@ -66,4 +66,9 @@ export class AppComponent {
       text: textStr
     }
   }
+
+  public handleViewProfile()
+  {
+    this.router.navigate(['/profile'])
+  }
 }

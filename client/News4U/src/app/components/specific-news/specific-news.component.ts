@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Comment } from 'src/app/models/comment';
 import { NamedValue } from 'src/app/models/named-value';
 import { News } from 'src/app/models/news';
 import { NewsService } from 'src/app/services/news.service';
@@ -21,6 +22,11 @@ export class SpecificNewsComponent implements OnInit {
   private loadedNews:boolean = false;
   private loadedRelated:boolean = false;
   public votedSurvey:boolean = false;
+  public newComment:string = "";
+  public newCommentWriter:string = "";
+  public hasCommented:boolean = false;
+  public noMoreComments:boolean = false;
+  private commentsPerLoad:number = 5;
 
   constructor(
     private newsService:NewsService, private surveyService:SurveyService, 
@@ -29,11 +35,16 @@ export class SpecificNewsComponent implements OnInit {
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.newsId = params['newsId']
-      this.newsService.getSpecificNews(this.newsId).subscribe(result => {
+      this.newsService.getSpecificNews(this.newsId, this.commentsPerLoad + 1).subscribe(result => {
         this.news = result;
         if(this.news.chart)
           this.setChartMaxValue()
         this.news.dateTime = this.getProperDateTime(this.news.dateTime);
+        if(this.news.comments.length <= this.commentsPerLoad) {
+          this.noMoreComments = true
+        }
+        else
+          this.news.comments = this.news.comments.slice(0, this.commentsPerLoad)
         this.loadedNews = true;
       })
 
@@ -65,7 +76,7 @@ export class SpecificNewsComponent implements OnInit {
     this.surveyMaxValue = this.getMaxValue(this.news.survey.answerValue);
   }
 
-  private getProperDateTime(dateTime:string) {
+  public getProperDateTime(dateTime:string) {
     let dateTimeObj:Date = new Date(dateTime);
     let day:string = String(dateTimeObj.getDay());
     let month:string = String(dateTimeObj.getMonth());
@@ -104,6 +115,38 @@ export class SpecificNewsComponent implements OnInit {
 
   public handleGoToRelatedNews(newsId:string) {
     this.router.navigate(["specific-news/" + newsId]);
+  }
+
+  public handleAddComment() {
+    let now = new Date();
+    let addedComment:Comment = new Comment;
+    addedComment.text = this.newComment;
+    addedComment.authorsName = this.newCommentWriter;
+    addedComment.dateTime = now.toString();
+    this.news.comments.unshift(addedComment);
+    this.hasCommented = true;
+    this.newsService.addNewComment(this.newsId, {
+      text: this.newComment,
+      authorsName: this.newCommentWriter
+    }).subscribe(result => {
+      console.log(result)
+    })
+  }
+
+  public handleLoadMoreComments() {
+    this.newsService.loadMoreComments(this.newsId, this.news.comments.length, this.commentsPerLoad + 1).subscribe(result => {
+      if(result.length <= this.commentsPerLoad)
+        this.noMoreComments = true;
+      else
+        result = result.slice(0, this.commentsPerLoad);
+      this.news.comments = this.news.comments.concat(result);
+    })
+  }
+
+  public canComment():boolean {
+    if(this.newComment == null || this.newComment.length < 1 || this.newCommentWriter == null || this.newCommentWriter.length < 1)
+      return false
+    return true
   }
 
   public isLoaded():boolean {

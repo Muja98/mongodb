@@ -8,11 +8,13 @@ using News4U_Data_Provider.Entities;
 using System.Threading.Tasks;
 using MongoDB.Driver.Linq;
 using System.Linq;
+using MongoDB.Bson;
 
 namespace News4U_Data_Provider.Services.RepositoryServices
 {
     public class NewsRepository: INewsRepository
     {
+        private static readonly List<string> newsFields = new List<string>() { "Sport", "Hronika", "Korona", "Vremenska prognoza" };
         private readonly IMongoCollection<News> _news;
 
         public NewsRepository(INews4UMongoIDatabaseSettings settings)
@@ -29,10 +31,12 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return news;
         }
 
-        public async Task<News> GetNews(string newsId)
+        public async Task<News> GetNews(string newsId, int commentsCount)
         {
-            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
-            return news;
+            var filter = Builders<News>.Filter.Eq("Id", newsId);
+            var projection = Builders<News>.Projection.Slice(news => news.Comments, 0, commentsCount);
+            var result = await _news.Find(filter).Project<News>(projection).FirstOrDefaultAsync();
+            return result;
         }
 
         public async Task<string> AddNews(News news)
@@ -140,15 +144,27 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return result;
         }
 
-        public async Task VoteSurvey(string newsId, int surveyIndex)
+        public IEnumerable<string> GetAvailableNewsFields()
         {
-            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
-            
-            if(news != null && news.Survey != null)
-            {
-                news.Survey.AnswerValue[surveyIndex].Value++;
-                await _news.ReplaceOneAsync(x => x.Id == newsId, news);
-            }
+            return newsFields;
+        }
+
+        public async Task VoteSurvey(string newsId, string surveyAnswerName)
+        {
+            //News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            //news.Survey.AnswerValue[surveyIndex].Value++;
+
+            var filter = Builders<News>.Filter.Where(x => x.Id == newsId && x.Survey.AnswerValue.Any(i => i.Name == surveyAnswerName));
+            var update = Builders<News>.Update.Inc(x => x.Survey.AnswerValue[-1].Value, 1);
+            await _news.UpdateOneAsync(filter, update);
+
+            //News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+
+            //if(news != null && news.Survey != null)
+            //{
+            //    news.Survey.AnswerValue[surveyIndex].Value++;
+            //    await _news.ReplaceOneAsync(x => x.Id == newsId, news);
+            //}
         }
 
         public async Task<IEnumerable<NamedValue>> GetSurveyResult(string newsId)
@@ -162,13 +178,32 @@ namespace News4U_Data_Provider.Services.RepositoryServices
 
         public async Task AddNewComment(string newsId, Comment comment)
         {
-            News news = await _news.Find(news => news.Id == newsId).FirstOrDefaultAsync();
+            comment.DateTime = DateTime.Now;
+            IList<Comment> toAdd = new List<Comment>();
+            toAdd.Add(comment);
+            var filter = Builders<News>.Filter.Eq(news => news.Id, newsId);
+            var update = Builders<News>.Update.PushEach(news => news.Comments, toAdd, position: 0);
+            await _news.UpdateOneAsync(filter, update);
+        }
 
-            if (news != null && news.Survey != null)
+        public async Task<IEnumerable<Comment>> LoadMoreComments(string newsId, int from, int count)
+        {
+            IList<Comment> comments = new List<Comment>();
+            var filter = Builders<News>.Filter.Eq("Id", newsId);
+            var projection = Builders<News>.Projection.Include("Id").Slice("Comments", from, count);
+            var bsonDoc = await _news.Find(filter).Project(projection).SingleAsync();
+            var bsonArray = bsonDoc.GetValue("Comments").AsBsonArray;
+            foreach(var bsonComment in bsonArray)
             {
-                news.Comments.Add(comment);
-                await _news.ReplaceOneAsync(x => x.Id == newsId, news);
+                Comment c = new Comment
+                {
+                    Text = bsonComment["Text"].ToString(),
+                    AuthorsName = bsonComment["AuthorsName"].ToString(),
+                    DateTime = (DateTime)bsonComment["DateTime"]
+                };
+                comments.Add(c);
             }
+            return comments;
         }
     }
 }

@@ -16,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 import { MainPageComponent } from './components/main-page/main-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ToastrModule } from 'ngx-toastr';
     LoginComponent,
     CreateNewsComponent,
     CreateParagraphComponent,
-    MainPageComponent
+    MainPageComponent,
+    ProfileComponent
   ],
   imports: [
     FormsModule,
@@ -45,6 +47,8 @@ import { ToastrModule } from 'ngx-toastr';
       {path: 'login', component :LoginComponent},
       {path: 'register', component :RegisterComponent},
       {path: 'create-paragraph', component: CreateParagraphComponent},
+      {path: 'profile',component :ProfileComponent},
+      {path: 'profile/:editorId',component :ProfileComponent}
     ])
   ],
   providers: [],

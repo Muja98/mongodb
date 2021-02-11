@@ -1,6 +1,7 @@
 import { Paragraph } from "./paragraph"
 import { Survey } from "./survey" 
 import { Chart } from "./chart"
+import { Comment } from "./comment";
 
 export class News 
 {
@@ -13,4 +14,5 @@ export class News
     tags:string[] = [];
     survey:Survey = null;
     chart:Chart = null;
+    comments:Comment[] = [];
 }

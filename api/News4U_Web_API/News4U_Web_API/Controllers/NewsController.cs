@@ -39,9 +39,9 @@ namespace News4U_Web_API.Controllers
          
         [HttpGet]
         [Route("{newsId}")]
-        public async Task<ActionResult> GetNews(string newsId)
+        public async Task<ActionResult> GetNews(string newsId, [FromQuery] int commentsCount)
         {
-            var news = await _repository.GetNews(newsId);
+            var news = await _repository.GetNews(newsId, commentsCount);
             if(!string.IsNullOrEmpty(news.MainPicturePath))
             {
                 news.MainPicturePath = FileManagerService.LoadImageFromFile(news.MainPicturePath);
@@ -129,12 +129,20 @@ namespace News4U_Web_API.Controllers
             var result = await _repository.GetRelatedNews(newsId);
             return Ok(result);
         }
-        
-        [HttpPost]
-        [Route("{newsId}/survey/{surveyIndex}")]
-        public async Task<ActionResult> VoteSurvey(string newsId, int surveyIndex)
+
+        [HttpGet]
+        [Route("available-fields")]
+        public ActionResult GetAvailableNewsFields()
         {
-            await _repository.VoteSurvey(newsId, surveyIndex);
+            var newsFields = _repository.GetAvailableNewsFields();
+            return Ok(newsFields);
+        }
+        
+        [HttpPatch]
+        [Route("{newsId}/survey/{surveyAnswerName}")]
+        public async Task<ActionResult> VoteSurvey(string newsId, string surveyAnswerName)
+        {
+            await _repository.VoteSurvey(newsId, surveyAnswerName);
             return Ok();
         }
 
@@ -148,10 +156,18 @@ namespace News4U_Web_API.Controllers
 
         [HttpPost]
         [Route("{newsId}/comment")]
-        public async Task<IActionResult> AddNewComment(string newsId, [FromBody] Comment comment)
+        public async Task<ActionResult> AddNewComment(string newsId, [FromBody] Comment comment)
         {
             await _repository.AddNewComment(newsId, comment);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{newsId}/get-comments")]
+        public async Task<ActionResult> GetMoreComments(string newsId, [FromQuery] int from, [FromQuery] int count)
+        {
+            IEnumerable<Comment> comments = await _repository.LoadMoreComments(newsId, from, count);
+            return Ok(comments);
         }
     }
 }
