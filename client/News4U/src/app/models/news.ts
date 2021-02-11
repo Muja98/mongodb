@@ -15,4 +15,5 @@ export class News
     survey:Survey = null;
     chart:Chart = null;
     comments:Comment[] = [];
+    editorName:string = "";
 }
