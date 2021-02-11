@@ -11,5 +11,6 @@ namespace News4U_Data_Provider.DTOs
         public string Title { get; set; }
         public string MainPicturePath { get; set; }
         public List<Paragraph> Paragraphs { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

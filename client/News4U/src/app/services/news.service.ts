@@ -24,6 +24,10 @@ export class NewsService {
     {Id: news.id, title: news.title, MainPicturePath: news.mainPicturePath, Field: news.field, EditorId: "6019d9901e3c7dd5dd607002", 
      EditorName: "Cakic Predrag", Paragraphs: news.paragraphs, Tags: news.tags, Survey: news.survey, Chart: news.chart});
   }
+
+  deleteNews(newsId:string) {
+    return this.http.delete(URL + "/api/news/" + newsId);
+  }
   
   getRelatedNews(newsId:string) {
     return this.http.get<News[]>(URL + "/api/news/" + newsId + "/related-news");
@@ -32,6 +36,10 @@ export class NewsService {
   getAllNews(start:number,end:number,field:string,title:string,tag:string)
   {
     return this.http.get(URL+"/api/news?from="+start+"&to="+end+"&field="+field+"&title="+title+"&tag="+tag);
+  }
+
+  getEditorsNews(editorId:string) {
+    return this.http.get<News[]>(URL + "/api/news/editor/" + editorId);
   }
 
   addNewComment(newsId:string, { text, authorsName}) {

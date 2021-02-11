@@ -40,7 +40,8 @@ namespace News4U_Web_API.Controllers
         public async Task<ActionResult> GetNewsForEditor(string editorId)
         {
             var news = await _repository.GetNewsForEditor(editorId);
-            return Ok(news);
+            var result = _mapper.Map<IEnumerable<News>, IEnumerable<NewsInfoDTO>>(news);
+            return Ok(result);
         }
          
         [HttpGet]
