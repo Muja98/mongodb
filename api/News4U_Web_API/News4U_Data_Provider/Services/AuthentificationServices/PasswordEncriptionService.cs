@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace News4U_Helpers
+namespace News4U_Data_Provider.Services.AuthentificationServices
 {
-    public class AuthentificationService
+    public class PasswordEncriptionService
     {
         public static string EncryptPassword(string password)
         {

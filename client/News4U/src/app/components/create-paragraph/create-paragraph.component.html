@@ -1,0 +1,37 @@
+<div class="container card mt-4 ml-5 mr-5" style="width: 900px;">
+    <div class="row justify-content-md-space-beetwen mt-2">
+        <div class="col-6">
+            <label for="subTitle" class="form-label">SubTitle</label>
+            <input 
+                type="text" class="form-control"
+                placeholder="Enter a subTitle..."
+                [(ngModel)]="subTitle"
+            >
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <label for="text" class="form-label">Text</label>
+            <div class="input-group">
+                <textarea 
+                    class="form-control" aria-label="With textarea" 
+                    style="resize: none; font-size: 15px;" placeholder="Enter text here..." 
+                    rows="7" [(ngModel)]="text">
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <label>Add Picture</label>
+        </div>
+    </div>
+    <div class="row mt-1 mb-3">
+        <div class="col">
+            <input type="file" (change)="onUploadChange($event)" accept=".png, .jpg, .jpeg, .pdf" />
+        </div>
+    </div>
+    <div class="row justify-content-md-center ml-1 mb-2">
+        <button type="button" class="btn btn-success" (click)="handleParagraphCreate()">Add paragraph</button>
+    </div>
+</div>

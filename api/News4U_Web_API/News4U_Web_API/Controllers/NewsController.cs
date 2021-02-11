@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using News4U_Data_Provider.DTOs;
 using News4U_Data_Provider.Entities;
 using News4U_Data_Provider.Services.RepositoryContracts;
 using News4U_Helpers;
@@ -36,7 +38,7 @@ namespace News4U_Web_API.Controllers
             var news = await _repository.GetNewsForEditor(editorId);
             return Ok(news);
         }
-
+         
         [HttpGet]
         [Route("{newsId}")]
         public async Task<ActionResult> GetNews(string newsId, [FromQuery] int commentsCount)
@@ -129,6 +131,14 @@ namespace News4U_Web_API.Controllers
             var result = await _repository.GetRelatedNews(newsId);
             return Ok(result);
         }
+
+        [HttpGet]
+        [Route("available-fields")]
+        public ActionResult GetAvailableNewsFields()
+        {
+            var newsFields = _repository.GetAvailableNewsFields();
+            return Ok(newsFields);
+        }
         
         [HttpPatch]
         [Route("{newsId}/survey/{surveyAnswerName}")]
@@ -161,5 +171,65 @@ namespace News4U_Web_API.Controllers
             IEnumerable<Comment> comments = await _repository.LoadMoreComments(newsId, from, count);
             return Ok(comments);
         }
+
+        [HttpPut]
+        [Route("edit-string-prop/{newsId}")]
+        public async Task<ActionResult> StringNewsEdit(string newsId, [FromBody] StringNewsEditDTO editValue)
+        {
+            await _repository.EditNews(newsId, editValue);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("edit-survey-prop/{newsId}")]
+        public async Task<ActionResult> SurveyNewsEdit(string newsId, [FromBody] SurveyNewsEditDTO editValue)
+        {
+            await _repository.EditNews(newsId, editValue);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("edit-string-list-prop/{newsId}")]
+        public async Task<ActionResult> StringListNewsEdit(string newsId, [FromBody] StringListNewsEditDTO editValue)
+        {
+            await _repository.EditNews(newsId, editValue);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("edit-picture-prop/{newsId}")]
+        public async Task<ActionResult> PictureListNewsEdit(string newsId, [FromBody] PictureNewsEditDTO editValue)
+        {
+            if (!string.IsNullOrEmpty(editValue.Picture))
+            {
+                editValue.Picture = FileManagerService.SaveImageToFile(editValue.Picture, "mainPicture" + newsId);
+            }
+            await _repository.EditNews(newsId, editValue);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("edit-paragraph-list-prop/{newsId}")]
+        public async Task<ActionResult> ParagraphListNewsEdit(string newsId, [FromBody] ParagraphListEditDTO editValue)
+        {
+            int i = 0;
+            foreach(Paragraph p in editValue.Paragraphs)
+            {
+                if (!string.IsNullOrEmpty(p.PicturePath))
+                    p.PicturePath = FileManagerService.SaveImageToFile(p.PicturePath, "paragraphPicture" + i + newsId);
+                i++;
+            }
+            await _repository.EditNews(newsId, editValue);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("edit-chart-prop/{newsId}")]
+        public async Task<ActionResult> ChartNewsEdit(string newsId, [FromBody] ChartNewsEditDTO editValue)
+        {
+            await _repository.EditNews(newsId, editValue);
+            return Ok();
+        }
+
     }
 }

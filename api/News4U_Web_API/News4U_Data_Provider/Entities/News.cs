@@ -18,6 +18,7 @@ namespace News4U_Data_Provider.Entities
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string EditorId { get; set; }
+        public string EditorName { get; set; }
 
         public List<Paragraph> Paragraphs { get; set; }
         public List<Comment> Comments { get; set; }

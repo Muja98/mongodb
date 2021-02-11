@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace News4U_Helpers
+namespace News4U_Data_Provider.Services.AuthentificationServices
 {
     public class JwtManager
     {
