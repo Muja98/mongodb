@@ -1,38 +1,52 @@
 <div style="height: 400px;" class="container rounded shadow-lg mt-5 p-5">
     <div class="row">
         <div class="col">
-            <h2 style="color: #8B0000;">Username:</h2>
+            <div class="row">
+                <div class="col">
+                    <h2 style="color: #8B0000;">Username:</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <input (click)="enableButtonAndRestoreDefault(0)" [disabled]="!edit"  style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.username" >
+                </div>
+                <div *ngIf="edit" class="col">
+                    <button (click)="handleEditUser(0)" [disabled]="!buttonVisible[0]" class="btn" style="background-color: #8B0000; color: white; font-weight: 500;">Sačuvaj promene</button>
+                </div>
+            </div>
+            <figcaption style="font-weight: 500;" class="text-danger">{{error.username}}</figcaption>
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h2 style="color: #8B0000;">First name:</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <input (click)="enableButtonAndRestoreDefault(1)" [disabled]="!edit"  style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.firstName" >
+                </div>
+                <div *ngIf="edit" class="col">
+                    <button (click)="handleEditUser(1)" [disabled]="!buttonVisible[1]" class="btn" style="background-color: #8B0000; color: white; font-weight: 500;">Sačuvaj promene</button>
+                </div>
+            </div>
+            <figcaption style="font-weight: 500;" class="text-danger">{{error.firstName}}</figcaption>
+            <div class="row">
+                <div class="col ">
+                    <h2 style="color: #8B0000;">Last name:</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <input (click)="enableButtonAndRestoreDefault(2)" [disabled]="!edit"  style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.lastName" >
+                </div>
+                <div *ngIf="edit" class="col">
+                    <button (click)="handleEditUser(2)" [disabled]=" !buttonVisible[2]" class="btn" style="background-color: #8B0000; color: white; font-weight: 500;">Sačuvaj promene</button>
+                </div>
+            </div>
+            <figcaption style="font-weight: 500;" class="text-danger">{{error.lastName}}</figcaption>    
+        
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <input [disabled]="!edit" style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.username" >
-        </div>
-    </div>
-    <div class="row justify-content-between">
-        <div class="col">
-            <h2 style="color: #8B0000;">First name:</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <input [disabled]="!edit" style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.firstName" >
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h2 style="color: #8B0000;">Last name:</h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <input [disabled]="!edit" style="font-size: 22px; margin-left: 15px; font-weight: 500;"  type="text" class="profileInput" [(ngModel)]="user.lastName" >
-        </div>
-    </div>
-        <img style="position: relative; left: 600px; bottom: 240px;" src="assets\logo_red.png">
-    <div *ngIf="edit" class="row" style="position: relative; bottom: 160px;">
-        <div class="col">
-            <button class="btn" style="background-color: #8B0000; color: white; font-weight: 500;">Sačuvaj promene</button>
+        <div class="col  mt-3">
+            <img src="assets\logo_red.png">
         </div>
     </div>
 </div>
