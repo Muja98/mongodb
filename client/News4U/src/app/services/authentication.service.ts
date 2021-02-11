@@ -61,7 +61,7 @@ export class AuthenticationService {
           }
           else {
             var token:any = { accessToken: result.value }
-            this.geStudentFromToken(token)
+            this.geUserFromToken(token)
             this.router.navigate(['/'])
           }
         }
@@ -77,14 +77,14 @@ export class AuthenticationService {
     localStorage.removeItem('user');
   }
 
-  public geStudentFromToken(token:any)
+  public geUserFromToken(token:any)
   {
     const helper = new JwtHelperService()
     const decodedToken = helper.decodeToken(token['accessToken'])
     localStorage.setItem('user', JSON.stringify(decodedToken))
   }
 
-  getStudentFromStorage()
+  getUserFromStorage()
   {
     const user = JSON.parse(localStorage.getItem('user'));
    
@@ -92,9 +92,18 @@ export class AuthenticationService {
       return user;
   }
 
-  getStudent(editorId:string)
+  getUser(editorId:string)
   {
     return this.http.get(URL+'/api/editors/'+editorId);
+  }
+
+  updateUser(editorId:string, propertyName:string, propertyValue)
+  {
+    this.http.patch(URL+'/api/editors/'+editorId,
+      {
+        PropertyName:propertyName,
+        PropertyValue:propertyValue
+      }).subscribe((el:any)=>{})
   }
 
 

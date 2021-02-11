@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using News4U_Data_Provider.DTOs;
@@ -17,18 +18,21 @@ namespace News4U_Web_API.Controllers
     {
         private readonly INewsRepository _repository;
         private readonly IEditorRepository _editorRepository;
+        private readonly IMapper _mapper;
 
-        public NewsController(INewsRepository repository, IEditorRepository editorRepository)
+        public NewsController(INewsRepository repository, IEditorRepository editorRepository, IMapper mapper)
         {
             _repository = repository;
             _editorRepository = editorRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAllNews([FromQuery] string title, [FromQuery] string field, [FromQuery] string tag, [FromQuery] int from, [FromQuery] int to)
         {
             var news = await _repository.GetAllNews(title, field, tag, from, to);
-            return Ok(news);
+            var result = _mapper.Map<IEnumerable<News>, IEnumerable<NewsInfoDTO>>(news);
+            return Ok(result);
         }
 
         [HttpGet]
@@ -36,7 +40,8 @@ namespace News4U_Web_API.Controllers
         public async Task<ActionResult> GetNewsForEditor(string editorId)
         {
             var news = await _repository.GetNewsForEditor(editorId);
-            return Ok(news);
+            var result = _mapper.Map<IEnumerable<News>, IEnumerable<NewsInfoDTO>>(news);
+            return Ok(result);
         }
          
         [HttpGet]

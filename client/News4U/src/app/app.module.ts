@@ -18,6 +18,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ProfileComponent } from './components/profile/profile.component';
+import { MyNewsComponent } from './components/my-news/my-news.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     CreateParagraphComponent,
     MainPageComponent,
     ProfileComponent,
-    EditNewsComponent
+    EditNewsComponent,
+    MyNewsComponent
   ],
   imports: [
     FormsModule,
@@ -51,7 +53,8 @@ import { ProfileComponent } from './components/profile/profile.component';
       {path: 'create-paragraph', component: CreateParagraphComponent},
       {path: 'profile',component :ProfileComponent},
       {path: 'profile/:editorId',component :ProfileComponent},
-      {path: 'edit-news/:newsId', component: EditNewsComponent}
+      {path: 'edit-news/:newsId', component: EditNewsComponent},
+      {path: 'my-news', component: MyNewsComponent}
     ])
   ],
   providers: [],

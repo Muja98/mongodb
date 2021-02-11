@@ -14,7 +14,7 @@ export class SurveyService {
     return this.http.get<NamedValue[]>(URL + "/api/news/" + newsId + "/survey");
   }
 
-  voteSurvey(newsId:string, surveyIndex:number) {
-    return this.http.post(URL + "/api/news/" + newsId + "/survey/" + surveyIndex, {});
+  voteSurvey(newsId:string, surveyAnswer:string) {
+    return this.http.patch(URL + "/api/news/" + newsId + "/survey/" + surveyAnswer, {});
   }
 }

@@ -1,0 +1,15 @@
+.clickable:hover {
+    color:#8B0000;
+    cursor: pointer;
+}
+
+.darkredBtn {
+    margin-bottom: 5px;
+    background-color: black;
+    border-color: black;
+}
+
+.darkredBtn:hover {
+    background-color: #8B0000;
+    border-color: #8B0000;
+}
