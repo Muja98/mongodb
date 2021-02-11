@@ -16,7 +16,7 @@ export class SpecificNewsComponent implements OnInit {
   public relatedNews:News[] = [];
   private newsId:string;
   private sub:any;
-  public surveyAnswer:number = -1;
+  public surveyAnswer:string = "";
   private chartMaxValue:number = 0;
   private surveyMaxValue:number = 0;
   private loadedNews:boolean = false;
@@ -40,7 +40,7 @@ export class SpecificNewsComponent implements OnInit {
         if(this.news.chart)
           this.setChartMaxValue()
         this.news.dateTime = this.getProperDateTime(this.news.dateTime);
-        if(this.news.comments.length <= this.commentsPerLoad) {
+        if(!this.news.comments || this.news.comments.length <= this.commentsPerLoad) {
           this.noMoreComments = true
         }
         else
