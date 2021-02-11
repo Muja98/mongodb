@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MongoDB.Driver.Linq;
 using System.Linq;
 using MongoDB.Bson;
+using News4U_Data_Provider.DTOs;
 
 namespace News4U_Data_Provider.Services.RepositoryServices
 {
@@ -204,6 +205,13 @@ namespace News4U_Data_Provider.Services.RepositoryServices
                 comments.Add(c);
             }
             return comments;
+        }
+
+        public async Task EditNews(string newsId, NewsEditDTO editValue)
+        {
+            var filter = Builders<News>.Filter.Eq("Id", newsId);
+            var update = Builders<News>.Update.Set(editValue.Key, editValue.GetValue());
+            await _news.UpdateOneAsync(filter, update);
         }
     }
 }
