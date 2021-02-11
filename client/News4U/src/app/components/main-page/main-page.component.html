@@ -158,19 +158,17 @@
 
        
         <div class="col-3 ">
-                <div  class="row p-2 rounded-top justify-content-center shadow" style="background-color: #8B0000; cursor: pointer;">
+                <div (click)="handleClickField(-1)"   class="row p-2 rounded-top justify-content-center shadow" style="background-color: #8B0000; cursor: pointer;">
                     <h5 style="color: white;">Oblasti</h5>
                 </div><!--oblastiArray-->
-                <div *ngFor="let item of oblastiArray; index as i" style="font-weight: 500; font-size: 20px;" class="shadow">
-                    <div *ngIf="i===selected" class="row pt-2 pl-2 pb-2" style="background-color: #8B0000; color: white; cursor: pointer;">
+                <div *ngFor="let item of fieldArray; index as i"  style="font-weight: 500; font-size: 20px;" class="shadow">
+                    <div *ngIf="i === this.fieldIndex" class="row pt-2 pl-2 pb-2" (click)="handleClickField(i)" style="background-color: #8B0000; color: white; cursor: pointer;">
                         {{item}}
                     </div>
-                    <div *ngIf="i!==selected" class="row pt-2 pl-2 pb-2" style="background-color: white; color: black; cursor: pointer;">
+                    <div *ngIf="i !== this.fieldIndex" (click)="handleClickField(i)"  class="row pt-2 pl-2 pb-2" style="background-color: white; color: black; cursor: pointer;">
                         {{item}}
                     </div>
                 </div>
-
-               
         </div>
     </div>
 </div>
