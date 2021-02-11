@@ -4,6 +4,7 @@ import URL from '../../API/api';
 import {HttpClient} from '@angular/common/http';
 import { News } from '../models/news';
 import { Comment } from '../models/comment';
+import { faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,10 @@ export class NewsService {
 
   loadMoreComments(newsId:string, from:number, count:number) {
     return this.http.get<Comment[]>(URL + "/api/news/" + newsId + "/get-comments?from=" + from + "&count=" + count);
+  }
+
+  getAvailableFields()
+  {
+    return this.http.get(URL+"/api/news/available-fields");
   }
 }

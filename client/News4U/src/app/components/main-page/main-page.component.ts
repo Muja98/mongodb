@@ -18,25 +18,33 @@ export class MainPageComponent implements OnInit {
   public news:News;
   public start:number = 0;
   public end:number = 6; 
-  public oblastiArray = ["Sport","Hronika","Korona","Vremenska Prognoza"]
-  public selectedTagArray = [];
-  public selected:number = -1;
-  public selectedText:string = ""
   public searchText = "";
-  public selectedTag = -1;
   public selectedTagText = "";
+  public fieldText = "";
+  public fieldIndex = -1;
+  public fieldArray:string[] = [];
   constructor( public service: NewsService, public router:Router) { }
-
-
- 
- 
 
   handleClickSearch()
   {
-    this.service.getAllNews(this.start, this.end, this.selectedText, this.searchText,this.selectedTagText).subscribe((el:News[])=>{
+    this.service.getAllNews(this.start, this.end,this.fieldText, this.searchText,this.selectedTagText).subscribe((el:News[])=>{
       this.newsArray = el;
      
    })
+  }
+
+  handleClickField(index:number)
+  {
+    if(index==-1 || index == this.fieldIndex)
+    {
+      this.fieldText = "";
+      this.fieldIndex = -1;
+    }
+    else
+    {
+      this.fieldText = this.fieldArray[index];
+      this.fieldIndex = index;
+    }
   }
 
   handleCheckNumber(i1, i2)
@@ -55,13 +63,7 @@ export class MainPageComponent implements OnInit {
     this.start = this.end;
     this.end = this.end+2;
 
-    let selectedpom;
-    if(this.selected==-1)
-      selectedpom = "";
-    else
-      selectedpom = this.oblastiArray[this.selected]
-
-    this.service.getAllNews(this.start,this.end,selectedpom,this.searchText,this.selectedTagText).subscribe((el:News[])=>{
+    this.service.getAllNews(this.start,this.end,this.fieldText,this.searchText,this.selectedTagText).subscribe((el:News[])=>{
       if(el.length==2) return;
       el.forEach((elpom:News)=>{
         this.newsArray.push(elpom)
@@ -69,11 +71,15 @@ export class MainPageComponent implements OnInit {
       })
    })
   }
+  
   ngOnInit(): void {
      this.service.getAllNews(this.start,this.end,"","","").subscribe((el:News[])=>{
         this.newsArray = el;
      })
- 
+     
+     this.service.getAvailableFields().subscribe((fields:string[])=>{
+       this.fieldArray = fields;
+     })
      
   } 
 
