@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using News4U_Data_Provider.DTOs;
 using News4U_Data_Provider.Entities;
+using News4U_Data_Provider.Services.AuthentificationServices;
 using News4U_Data_Provider.Services.RepositoryContracts;
 using News4U_Helpers;
 
@@ -30,7 +31,7 @@ namespace News4U_Web_API.Controllers
         {
             if (!await _repository.EditorExists(editorInfo.Username))
             {
-                editorInfo.Password = AuthentificationService.EncryptPassword(editorInfo.Password);
+                editorInfo.Password = PasswordEncriptionService.EncryptPassword(editorInfo.Password);
                 Editor editor = _mapper.Map<Editor>(editorInfo);
                 await _repository.AddEditor(editor);
                 var token = JwtManager.GenerateJWToken(editor);
@@ -47,7 +48,7 @@ namespace News4U_Web_API.Controllers
             string savedPwd = await _repository.GetEditorPassword(editorCredentials.Username);
             if (savedPwd != null)
             {
-                if (AuthentificationService.IsPasswordCorrect(savedPwd, editorCredentials.Password))
+                if (PasswordEncriptionService.IsPasswordCorrect(savedPwd, editorCredentials.Password))
                 {
                     Editor editor = await _repository.GetEditorByUsername(editorCredentials.Username);
                     string token = JwtManager.GenerateJWToken(editor);

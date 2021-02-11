@@ -8,8 +8,4 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\News4U_Data_Provider\News4U_Data_Provider.csproj" />
-  </ItemGroup>
-
 </Project>

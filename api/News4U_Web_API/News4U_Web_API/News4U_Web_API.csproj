@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\News4U_Data_Provider\News4U_Data_Provider.csproj" />
     <ProjectReference Include="..\News4U_Helpers\News4U_Helpers.csproj" />
   </ItemGroup>
 
