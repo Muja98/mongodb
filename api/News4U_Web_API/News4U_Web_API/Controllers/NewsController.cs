@@ -36,7 +36,7 @@ namespace News4U_Web_API.Controllers
             var news = await _repository.GetNewsForEditor(editorId);
             return Ok(news);
         }
-
+         
         [HttpGet]
         [Route("{newsId}")]
         public async Task<ActionResult> GetNews(string newsId)

@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common'
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component'
 import {FormsModule} from '@angular/forms';
 import { MainPageComponent } from './components/main-page/main-page.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { MainPageComponent } from './components/main-page/main-page.component';
     NgbModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     RouterModule.forChild([
       {path: '', component:MainPageComponent},
       {path: 'specific-news/:newsId', component: SpecificNewsComponent},

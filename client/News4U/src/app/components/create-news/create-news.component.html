@@ -1,15 +1,15 @@
 <div class="container">
     <div class="row justify-content-md-center mt-5">
         <div class="col-md-4">
-            <label for="news.title" class="form-label">Title</label>
+            <label for="news.title" class="form-label">Naslov</label>
             <input 
                 type="text" class="form-control"
-                placeholder="Enter a title..."
+                placeholder="unesite naslov..."
                 [(ngModel)]="news.title"
             >
         </div>
         <div class="col-md-4">
-            <label for="news.field">Field</label>
+            <label for="news.field">Oblast</label>
             <select class="form-control" [(ngModel)]="news.field">
                 <option *ngFor="let field of fields" [value]="field" [(ngModel)]="news.field">
                     {{field}}
@@ -17,41 +17,44 @@
             </select>
         </div>
         <div class="col-md-4">
-            <label for="tags" class="form-label">Tags</label>
+            <label for="tags" class="form-label">Tagovi</label>
             <input 
                 type="text" class="form-control"
-                placeholder="Enter tags splitted with space..."
-                [(ngModel)]="news.title"
+                placeholder="unesite tagove razdvojene blanko znakom..."
+                [(ngModel)]="tags"
             >
         </div>
     </div>
     <div class="row ml-1 mt-3">
-        <label>Add Main Picture</label>
+        <label>Dodajte naslovnu fotografiju vesti</label>
     </div>
     <div class="row justify-content-md-space-beetwen pt-1 pb-3">
         <div class="col-4">
             <input type="file"  (change)="mainOnUploadChange($event)" accept=".png, .jpg, .jpeg, .pdf" />
         </div>
     </div>
-    <div class="row justify-content-md-center mt-2">
-        <div class="container card mt-4 ml-5 mr-5" >
+    <div class="row justify-content-md-center mt-3">
+        <div class="col-7 container card ml-2" >
+            <div class="row ml-1 mt-2">
+                <h5>Kreirajte pasus</h5>
+            </div>
             <div class="row justify-content-md-space-beetwen mt-2">
                 <div class="col-6">
-                    <label for="subTitle" class="form-label">SubTitle</label>
+                    <label for="subTitle" class="form-label">Podnaslov</label>
                     <input 
                         type="text" class="form-control"
-                        placeholder="Enter a subTitle..."
+                        placeholder="unesite podnaslov..."
                         [(ngModel)]="subTitle"
                     >
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col">
-                    <label for="text" class="form-label">Text</label>
+                    <label for="text" class="form-label">Tekst pasusa</label>
                     <div class="input-group">
                         <textarea 
                             class="form-control" aria-label="With textarea" 
-                            style="resize: none; font-size: 15px;" placeholder="Enter text here..." 
+                            style="resize: none; font-size: 15px;" placeholder="unesite tekst pasusa..." 
                             rows="7" [(ngModel)]="text">
                         </textarea>
                     </div>
@@ -59,7 +62,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col">
-                    <label>Add Picture</label>
+                    <label>Dodajte sliku</label>
                 </div>
             </div>
             <div class="row mt-1 mb-3">
@@ -68,11 +71,92 @@
                 </div>
             </div>
             <div class="row justify-content-md-center ml-1 mb-2">
-                <button type="button" class="btn btn-success" (click)="handleParagraphCreate()">Add paragraph</button>
+                <button type="button" class="btn btn-success darkredBtn" (click)="handleParagraphCreate()" [disabled] = "!checkNewParagraph()">Dodajte pasus</button>
+            </div>
+        </div>
+        <div class="col container card ml-3" style="min-height: 250px;" >
+            <div class="row ml-1 mt-2">
+                <h5>Kreirajte anketu</h5>
+            </div>
+            <div class="row justify-content-md-space-beetwen mt-2">
+                <div class="col">
+                    <label for="survey.question" class="form-label">Pitanje</label>
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="Unesite pitanje vezano za anketu..."
+                        [(ngModel)]="survey.question"
+                    >
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <input type="number" class="form-control"  [(ngModel)]="numberOfValues" min="0" max="5" value="0">
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfValues()">Postavite broj opcija za glasače</button>
+                </div>
+            </div>
+            <div class="row mt-2" *ngFor="let item of survey.answerValue" >
+                <div class="col">
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="unesite naziv opcije..."
+                        [(ngModel)]="item.name"
+                    >
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-2">
+                <button type="button" class="btn btn-success darkredBtn" (click)="handleResetSurvey()">Resetuj</button>
             </div>
         </div>
     </div>
-    <div class="row justify-content-md-center mt-5 ml-2">
-        <button type="button" class="btn btn-success btn-lg" (click)="handleCreateNews()">Submit</button>
+
+    <div class="row justify-content-md-center mt-3 ml-2 mr-2">
+         <div class="col-8 container card">
+            <div class="row justify-content-md-center ml-2 mt-2">
+                <h5>Da li želite grafik u okviru vesti? Kreirajte ga!</h5>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-6">
+                    <label for="chart.description" class="form-label">Opis problema</label>
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="unesite tekst..."
+                        [(ngModel)]="chart.description"
+                    >
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center mt-2">
+                <div class="col-3">
+                    <input type="number" class="form-control"  [(ngModel)]="numberOfPoles" min="0" max="20">
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfPoles()">Postavite broj broj stubića grafika</button>
+                </div>
+            </div>
+
+            <div class="row mt-2" *ngFor="let item of chart.data" >
+                <div class="col-4">
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="unesite naziv vrednosti..."
+                        [(ngModel)]="item.name"
+                    >
+                </div>
+                <div class="col-3">
+                    <input type="number" class="form-control"  [(ngModel)]="item.value" min="0" step="0.1">
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center mt-3 mb-3">
+                <button type="button" class="btn btn-success darkredBtn" (click)="handleResetChart()">Resetuj</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-md-center mt-5 ml-2 mb-3">
+        <button type="button" class="btn btn-success btn-lg" (click)="handleCreateNews()" [disabled] = "!checkData()">Objavi vest!</button>
     </div>
 </div>

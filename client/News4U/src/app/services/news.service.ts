@@ -1,3 +1,4 @@
+import { Survey } from './../models/survey';
 import { Injectable } from '@angular/core';
 import URL from '../../API/api';
 import {HttpClient} from '@angular/common/http';
@@ -15,8 +16,11 @@ export class NewsService {
   }
 
   createNews(news: News) {
+    debugger
     console.log(news);
-    return this.http.post(URL + "/api/news/6019d9901e3c7dd5dd607002", {News: news});
+    return this.http.post(URL + "/api/news/6019d9901e3c7dd5dd607002", 
+    {Id: news.id, title: news.title, MainPicturePath: news.mainPicturePath, Field: news.field, EditorId: "6019d9901e3c7dd5dd607002", 
+     EditorName: "Cakic Predrag", Paragraphs: news.paragraphs, Tags: news.tags, Survey: news.survey, Chart: news.chart});
   }
   
   getRelatedNews(newsId:string) {
