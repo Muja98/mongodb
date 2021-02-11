@@ -1,0 +1,39 @@
+<div class="container-fluid  p-5" *ngIf="dataLoaded && myNews.length > 0">
+  <div *ngFor="let news of myNews; index as i" class="row ">
+    <div  class="container d-flex flex-row shadow rounded pl-4 pr-4 pt-3 pb-3 mt-5"  style="background-color: white;">
+      <div class="col clickable" (click)="handleRedirectSpecificNews(news.id)">
+        <div class="row">
+          <img *ngIf="news.mainPicturePath" width="100%" height="240px" [src]="'data:image/png;base64,' + news.mainPicturePath">
+          <img *ngIf="!news.mainPicturePath" width="100%" height="240px" src="../../../assets/logo_red.png" >
+        </div>
+      </div>
+      <div class="col pl-5">
+        <div class="row clickable" (click)="handleRedirectSpecificNews(news.id)">
+          <h5>"{{news.title}}"</h5>
+        </div>
+        <div class="row">
+          <p style="color: gray;">
+            {{news.paragraphs[0].text.slice(0,250)}}...
+          </p>
+        </div>
+      </div>
+      <div ngbPopover="Obriši vest" triggers="mouseenter:mouseleave" *ngIf="myClicks[i]==0">
+        <i (click)="clickDelete(i)" class="clickable fa fa-times-circle fa-lg"  aria-hidden="true"></i>
+      </div>
+      <div *ngIf="myClicks[i] > 0" style="margin-left: 30px;">
+        <div class="row" ngbPopover="Potvrdi brisanje vesti" triggers="mouseenter:mouseleave">
+          <button type="button" class="btn btn-success darkredBtn" (click)="confirmDelete(i)">Potvrdi</button>
+        </div>
+        <div class="row" ngbPopover="Odustani od brisanja vesti" triggers="mouseenter:mouseleave">
+          <button type="button" class="btn btn-success darkredBtn" (click)="cancelDelete(i)">Odustani</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row justify-content-center" *ngIf="dataLoaded && myNews.length <= 0">
+  <div style="font-style: italic; font-size: 30px; font-weight: bold;"> Nemate objavljenih vesti </div>
+</div>
+<div *ngIf="!dataLoaded">
+  <app-loading-screen></app-loading-screen>
+</div>
