@@ -18,7 +18,7 @@ export class MyNewsComponent implements OnInit {
   constructor(private newsService:NewsService, private authService:AuthenticationService, private router:Router) { }
 
   ngOnInit(): void {
-    this.editorId = this.authService.getStudentFromStorage()["id"]
+    this.editorId = this.authService.getUserFromStorage()["id"]
     this.newsService.getEditorsNews(this.editorId).subscribe(result => {
       this.myNews = result
       this.myClicks = new Array(this.myNews.length) 
