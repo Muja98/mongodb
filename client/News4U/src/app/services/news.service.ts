@@ -28,6 +28,10 @@ export class NewsService {
   deleteNews(newsId:string) {
     return this.http.delete(URL + "/api/news/" + newsId);
   }
+
+  deleteNewsOlderThan(editorId:string, dateTime:string) {
+    return this.http.delete(URL + "/api/news/" + editorId + "/date/" + dateTime);
+  }
   
   getRelatedNews(tags:string[], field:string, newsId:string) {
     let queryParams:string = "?";
@@ -42,8 +46,8 @@ export class NewsService {
     return this.http.get(URL+"/api/news?from="+start+"&to="+end+"&field="+field+"&title="+title+"&tag="+tag);
   }
 
-  getEditorsNews(editorId:string) {
-    return this.http.get<News[]>(URL + "/api/news/editor/" + editorId);
+  getEditorsNews(editorId:string, from:number, count:number) {
+    return this.http.get<News[]>(URL + "/api/news/editor/" + editorId + "?from=" + from + "&to=" + count);
   }
 
   addNewComment(newsId:string, { text, authorsName}) {

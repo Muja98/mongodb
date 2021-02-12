@@ -9,7 +9,7 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
 {
     public interface INewsRepository
     {
-        Task<IEnumerable<News>> GetNewsForEditor(string editorId);
+        Task<IEnumerable<News>> GetNewsForEditor(string editorId, int from, int to);
         Task<News> GetNews(string newsId, int commentsCount);
         Task<IEnumerable<News>> GetAllNews(string title, string field, string tag, int from, int to);
         Task<string> AddNews(News news);

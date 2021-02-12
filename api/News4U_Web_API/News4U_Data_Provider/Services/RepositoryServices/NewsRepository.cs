@@ -26,9 +26,11 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             _news = database.GetCollection<News>(settings.NewsCollectionName);
         }
 
-        public async Task<IEnumerable<News>> GetNewsForEditor(string editorId)
+        public async Task<IEnumerable<News>> GetNewsForEditor(string editorId, int from, int to)
         {
-            var news = await _news.Find(news => news.EditorId == editorId).ToListAsync();
+            var news = await _news.AsQueryable().Where(news => news.EditorId == editorId)
+                                                .OrderByDescending(news => news.DateTime)                                
+                                                .Skip(from).Take(to).ToListAsync();
             return news;
         }
 
