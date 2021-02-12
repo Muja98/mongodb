@@ -115,12 +115,9 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return found;
         }
 
-        public async Task<IEnumerable<News>> GetRelatedNews(string newsId)
+        public async Task<IEnumerable<News>> GetRelatedNews(List<string> tags, string field, string newsId)
         {
             List<News> result = new List<News>();
-
-            string field = _news.AsQueryable().Where(n => n.Id == newsId).Select(n => n.Field).FirstOrDefault();
-            List<string> tags = _news.AsQueryable().Where(n => n.Id == newsId).Select(n => n.Tags).FirstOrDefault();
 
             if(tags.Count > 0 )
             {
@@ -135,7 +132,7 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             if(result.Count < 10)
             {
                 List<News> newsWithSameField = await _news.AsQueryable()
-                .Where(n => n.Id != newsId && n.Field == field)
+                .Where(n => n.Id != newsId && n.Field == field && !n.Tags.Any(t => tags.Contains(t)))
                 .Take(10 - result.Count)
                 .ToListAsync();
 

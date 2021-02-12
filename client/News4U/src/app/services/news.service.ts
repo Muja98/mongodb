@@ -29,8 +29,12 @@ export class NewsService {
     return this.http.delete(URL + "/api/news/" + newsId);
   }
   
-  getRelatedNews(newsId:string) {
-    return this.http.get<News[]>(URL + "/api/news/" + newsId + "/related-news");
+  getRelatedNews(tags:string[], field:string, newsId:string) {
+    let queryParams:string = "?";
+    tags.forEach(tag => queryParams = queryParams.concat("tags=" + tag + "&"));
+    queryParams += "field=" + field;
+
+    return this.http.get<News[]>(URL + "/api/news/" + newsId + "/related-news/" + queryParams);
   }
 
   getAllNews(start:number,end:number,field:string,title:string,tag:string)

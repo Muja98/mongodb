@@ -131,9 +131,10 @@ namespace News4U_Web_API.Controllers
 
         [HttpGet]
         [Route("{newsId}/related-news")]
-        public async Task<ActionResult> GetRelatedNews(string newsId)
+        public async Task<ActionResult> GetRelatedNews([FromQuery (Name = "tags")] List<string> tags, string field, string newsId)
         {
-            var result = await _repository.GetRelatedNews(newsId);
+            var news = await _repository.GetRelatedNews(tags, field, newsId);
+            var result = _mapper.Map<IEnumerable<News>, IEnumerable<NewsInfoDTO>>(news);
             return Ok(result);
         }
 

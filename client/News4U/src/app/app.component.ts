@@ -53,10 +53,12 @@ export class AppComponent {
 
 
   public logInTemp() {
-    if(this.service.logedIn())
+    if(this.service.logedIn()) {
       this.service.logout();
-      else
-    this.router.navigate(['/login'])
+      this.router.navigate(['/'])
+    }
+    else
+      this.router.navigate(['/login'])
    
   }
 
