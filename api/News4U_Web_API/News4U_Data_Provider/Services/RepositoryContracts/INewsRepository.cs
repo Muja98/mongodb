@@ -22,5 +22,7 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
         Task AddNewComment(string newsId, Comment comment);
         Task<IEnumerable<Comment>> LoadMoreComments(string newsId, int from, int count);
         Task EditNews(string newsId, NewsEditDTO editValue);
+
+        Task<IEnumerable<News>> DeleteNewsByDate(string editorId, DateTime date);
     }
 }

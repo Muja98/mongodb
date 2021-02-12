@@ -213,5 +213,22 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             var update = Builders<News>.Update.Set(editValue.Key, editValue.GetValue());
             await _news.UpdateOneAsync(filter, update);
         }
+
+        public async Task<IEnumerable<News>> DeleteNewsByDate(string editorId, DateTime date)
+        {
+            var filter1 = Builders<News>.Filter.Eq("EditorId", editorId);
+            var filter2 = Builders<News>.Filter.Lt("DateTime", date);
+
+            var query = _news.AsQueryable();
+            query = query.Where(n => n.EditorId == editorId);
+            query = query.Where(n => n.DateTime > date);
+            List<News> result = await query.ToListAsync();
+
+            await _news.DeleteManyAsync(filter1 & filter2);
+
+            return result;
+
+        }
+
     }
 }

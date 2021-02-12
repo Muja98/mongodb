@@ -18,5 +18,7 @@ namespace News4U_Data_Provider.Services.RepositoryContracts
         Task AddNews(string editorId, string newsId);
         Task DeleteNews(string editorId, string newsId);
         Task UpdateUser(string editorId, string propertyName, string propertyValue);
+
+        Task DeleteNewsByDate(List<string> newsIds, string editorId);
     }
 }

@@ -76,5 +76,7 @@ namespace News4U_Web_API.Controllers
             await _repository.UpdateUser(editorId, editorUpdate.PropertyName, editorUpdate.PropertyValue);
             return Ok();
         }
+
+
     }
 }
