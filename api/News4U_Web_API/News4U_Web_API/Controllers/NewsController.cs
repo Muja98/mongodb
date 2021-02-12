@@ -37,9 +37,9 @@ namespace News4U_Web_API.Controllers
 
         [HttpGet]
         [Route("editor/{editorId}")]
-        public async Task<ActionResult> GetNewsForEditor(string editorId)
+        public async Task<ActionResult> GetNewsForEditor(string editorId, [FromQuery] int from, [FromQuery] int to)
         {
-            var news = await _repository.GetNewsForEditor(editorId);
+            var news = await _repository.GetNewsForEditor(editorId, from, to);
             var result = _mapper.Map<IEnumerable<News>, IEnumerable<NewsInfoDTO>>(news);
             return Ok(result);
         }
