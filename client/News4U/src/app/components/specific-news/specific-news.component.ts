@@ -46,11 +46,11 @@ export class SpecificNewsComponent implements OnInit {
         else
           this.news.comments = this.news.comments.slice(0, this.commentsPerLoad)
         this.loadedNews = true;
-      })
 
-      this.newsService.getRelatedNews(this.newsId).subscribe(result => {
-        this.relatedNews = result;
-        this.loadedRelated = true;
+        this.newsService.getRelatedNews(this.news.tags ? this.news.tags : [], this.news.field, this.newsId).subscribe(result => {
+          this.relatedNews = result;
+          this.loadedRelated = true;
+        })
       })
     })
   }
@@ -123,6 +123,8 @@ export class SpecificNewsComponent implements OnInit {
     addedComment.text = this.newComment;
     addedComment.authorsName = this.newCommentWriter;
     addedComment.dateTime = now.toString();
+    if(!this.news.comments)
+      this.news.comments = []
     this.news.comments.unshift(addedComment);
     this.hasCommented = true;
     this.newsService.addNewComment(this.newsId, {

@@ -26,9 +26,11 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             _news = database.GetCollection<News>(settings.NewsCollectionName);
         }
 
-        public async Task<IEnumerable<News>> GetNewsForEditor(string editorId)
+        public async Task<IEnumerable<News>> GetNewsForEditor(string editorId, int from, int to)
         {
-            var news = await _news.Find(news => news.EditorId == editorId).ToListAsync();
+            var news = await _news.AsQueryable().Where(news => news.EditorId == editorId)
+                                                .OrderByDescending(news => news.DateTime)                                
+                                                .Skip(from).Take(to).ToListAsync();
             return news;
         }
 
@@ -100,12 +102,24 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             return result;
         }
 
-        public async Task<IEnumerable<News>> GetRelatedNews(string newsId)
+        bool CompareTags(List<string> tags1, List<string> tags2)
+        {
+            bool found = false;
+            int index = 0;
+
+            while (!found && index < tags1.Count)
+            {
+                if (tags2.Contains(tags1[index]))
+                    found = true;
+                index++;
+            }
+
+            return found;
+        }
+
+        public async Task<IEnumerable<News>> GetRelatedNews(List<string> tags, string field, string newsId)
         {
             List<News> result = new List<News>();
-
-            string field = _news.AsQueryable().Where(n => n.Id == newsId).Select(n => n.Field).FirstOrDefault();
-            List<string> tags = _news.AsQueryable().Where(n => n.Id == newsId).Select(n => n.Tags).FirstOrDefault();
 
             if(tags.Count > 0 )
             {
@@ -120,7 +134,7 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             if(result.Count < 10)
             {
                 List<News> newsWithSameField = await _news.AsQueryable()
-                .Where(n => n.Id != newsId && n.Field == field)
+                .Where(n => n.Id != newsId && n.Field == field && !n.Tags.Any(t => tags.Contains(t)))
                 .Take(10 - result.Count)
                 .ToListAsync();
 
@@ -198,5 +212,22 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             var update = Builders<News>.Update.Set(editValue.Key, editValue.GetValue());
             await _news.UpdateOneAsync(filter, update);
         }
+
+        public async Task<IEnumerable<News>> DeleteNewsByDate(string editorId, DateTime date)
+        {
+            var filter1 = Builders<News>.Filter.Eq("EditorId", editorId);
+            var filter2 = Builders<News>.Filter.Lt("DateTime", date);
+
+            var query = _news.AsQueryable();
+            query = query.Where(n => n.EditorId == editorId);
+            query = query.Where(n => n.DateTime > date);
+            List<News> result = await query.ToListAsync();
+
+            await _news.DeleteManyAsync(filter1 & filter2);
+
+            return result;
+
+        }
+
     }
 }

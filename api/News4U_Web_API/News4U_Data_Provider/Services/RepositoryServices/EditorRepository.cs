@@ -80,5 +80,16 @@ namespace News4U_Data_Provider.Services.RepositoryServices
             var update = Builders<Editor>.Update.Set(propertyName, propertyValue); 
             await _editors.UpdateOneAsync(query, update);
         }
+
+        public async Task DeleteNewsByDate(List<string> newsids, string editorId)
+        {
+            var editorFilter = Builders<Editor>.Filter.Eq("Id", editorId);
+
+            var update = Builders<Editor>.Update.PullFilter(nw=>nw.MyNews, nwl => newsids.Contains(nwl));
+
+            
+            await _editors.UpdateOneAsync(ed => ed.Id == editorId, update);
+       
+        }
     }
 } 

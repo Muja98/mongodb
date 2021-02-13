@@ -1,4 +1,28 @@
 <div class="container-fluid  p-5" *ngIf="dataLoaded && myNews.length > 0">
+  <div class="row">
+    <div class="container d-flex rounded shadow flex-row pl-4 pr-4 pt-3 pb-3 mt-5 align-items-center justify-content-around" style="background-color: white;">
+      <div class="row align-items-center">
+        <h3 class="mr-4">
+          Obriši vesti starije od navedenog datuma:
+        </h3>
+        <div>
+          <input 
+            type="datetime-local" id="meeting-time" name="meeting-time" [value]="chosenDateTime" 
+            [disabled]="!canChooseDateTime" (change)="chosenDateTime=$event.target.value">
+        </div>
+      </div>
+      <div>
+        <button type="button" class="btn btn-success darkredBtn" (click)="clickDeleteDateTime()" *ngIf="canChooseDateTime">Obriši</button>
+        <div class="row" ngbPopover="Potvrdi brisanje vesti" triggers="mouseenter:mouseleave" *ngIf="!canChooseDateTime">
+          <button type="button" class="btn btn-success darkredBtn" (click)="confirmDeleteDateTime()">Potvrdi</button>
+        </div>
+        <div class="row" ngbPopover="Odustani od brisanja vesti" triggers="mouseenter:mouseleave" *ngIf="!canChooseDateTime">
+          <button type="button" class="btn btn-success darkredBtn" (click)="cancelDeleteDateTime()">Odustani</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div *ngFor="let news of myNews; index as i" class="row ">
     <div  class="container d-flex flex-row shadow rounded pl-4 pr-4 pt-3 pb-3 mt-5"  style="background-color: white;">
       <div class="col clickable" (click)="handleRedirectSpecificNews(news.id)">
@@ -8,6 +32,9 @@
         </div>
       </div>
       <div class="col pl-5">
+        <div class="row">
+          <p>{{getProperDateTime(news.dateTime)}}</p>
+        </div>
         <div class="row clickable" (click)="handleRedirectSpecificNews(news.id)">
           <h5>"{{news.title}}"</h5>
         </div>
@@ -28,6 +55,15 @@
           <button type="button" class="btn btn-success darkredBtn" (click)="cancelDelete(i)">Odustani</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="container d-flex rounded flex-row pl-4 pr-4 pt-3 pb-3 mt-5 align-items-center justify-content-around">
+      <button 
+          type="button" class="btn btn-success darkredBtn" (click)="handleLoadMoreNews()"
+          [disabled]="noMoreNews" *ngIf="!noMoreNews">
+          Učitaj još vesti
+      </button>
     </div>
   </div>
 </div>

@@ -37,31 +37,31 @@ namespace News4U_Web_API.Controllers
 
         [HttpGet]
         [Route("editor/{editorId}")]
-        public async Task<ActionResult> GetNewsForEditor(string editorId)
+        public async Task<ActionResult> GetNewsForEditor(string editorId, [FromQuery] int from, [FromQuery] int to)
         {
-            var news = await _repository.GetNewsForEditor(editorId);
+            var news = await _repository.GetNewsForEditor(editorId, from, to);
             var result = _mapper.Map<IEnumerable<News>, IEnumerable<NewsInfoDTO>>(news);
             return Ok(result);
         }
-         
+
         [HttpGet]
         [Route("{newsId}")]
         public async Task<ActionResult> GetNews(string newsId, [FromQuery] int commentsCount)
         {
             var news = await _repository.GetNews(newsId, commentsCount);
-            if(!string.IsNullOrEmpty(news.MainPicturePath))
+            if (!string.IsNullOrEmpty(news.MainPicturePath))
             {
                 news.MainPicturePath = FileManagerService.LoadImageFromFile(news.MainPicturePath);
             }
-            if(news.Paragraphs != null)
+            if (news.Paragraphs != null)
             {
-                foreach(Paragraph p in news.Paragraphs)
+                foreach (Paragraph p in news.Paragraphs)
                 {
-                    if(!string.IsNullOrEmpty(p.PicturePath))
+                    if (!string.IsNullOrEmpty(p.PicturePath))
                     {
                         p.PicturePath = FileManagerService.LoadImageFromFile(p.PicturePath);
                     }
-                }    
+                }
             }
             return Ok(news);
         }
@@ -72,15 +72,15 @@ namespace News4U_Web_API.Controllers
         {
             string tempNewsMainPicture = null;
             List<Paragraph> tempNewsParagraphs = null;
-            if(!string.IsNullOrEmpty(news.MainPicturePath))
+            if (!string.IsNullOrEmpty(news.MainPicturePath))
             {
                 tempNewsMainPicture = news.MainPicturePath;
                 news.MainPicturePath = null;
             }
 
-            foreach(Paragraph p in news.Paragraphs)
+            foreach (Paragraph p in news.Paragraphs)
             {
-                if(!string.IsNullOrEmpty(p.PicturePath))
+                if (!string.IsNullOrEmpty(p.PicturePath))
                 {
                     tempNewsParagraphs = news.Paragraphs;
                     news.Paragraphs = null;
@@ -90,16 +90,16 @@ namespace News4U_Web_API.Controllers
 
             string newsId = await _repository.AddNews(news);
 
-            if (!string.IsNullOrEmpty(tempNewsMainPicture) || tempNewsParagraphs != null) 
+            if (!string.IsNullOrEmpty(tempNewsMainPicture) || tempNewsParagraphs != null)
             {
-                if(!string.IsNullOrEmpty(tempNewsMainPicture))
+                if (!string.IsNullOrEmpty(tempNewsMainPicture))
                     news.MainPicturePath = FileManagerService.SaveImageToFile(tempNewsMainPicture, "mainPicture" + news.Id);
 
-                if(tempNewsParagraphs != null)
+                if (tempNewsParagraphs != null)
                 {
                     int i = 0;
                     news.Paragraphs = tempNewsParagraphs;
-                    foreach(Paragraph p in tempNewsParagraphs)
+                    foreach (Paragraph p in tempNewsParagraphs)
                     {
                         if (!string.IsNullOrEmpty(p.PicturePath))
                             news.Paragraphs.ElementAt(i).PicturePath = FileManagerService.SaveImageToFile(p.PicturePath, "paragraphPicture" + i + news.Id);
@@ -131,9 +131,10 @@ namespace News4U_Web_API.Controllers
 
         [HttpGet]
         [Route("{newsId}/related-news")]
-        public async Task<ActionResult> GetRelatedNews(string newsId)
+        public async Task<ActionResult> GetRelatedNews([FromQuery (Name = "tags")] List<string> tags, string field, string newsId)
         {
-            var result = await _repository.GetRelatedNews(newsId);
+            var news = await _repository.GetRelatedNews(tags, field, newsId);
+            var result = _mapper.Map<IEnumerable<News>, IEnumerable<NewsInfoDTO>>(news);
             return Ok(result);
         }
 
@@ -144,7 +145,7 @@ namespace News4U_Web_API.Controllers
             var newsFields = _repository.GetAvailableNewsFields();
             return Ok(newsFields);
         }
-        
+
         [HttpPatch]
         [Route("{newsId}/survey/{surveyAnswerName}")]
         public async Task<ActionResult> VoteSurvey(string newsId, string surveyAnswerName)
@@ -157,7 +158,7 @@ namespace News4U_Web_API.Controllers
         [Route("{newsId}/survey")]
         public async Task<ActionResult> GetSurveyResult(string newsId)
         {
-            var srv = await  _repository.GetSurveyResult(newsId);
+            var srv = await _repository.GetSurveyResult(newsId);
             return Ok(srv);
         }
 
@@ -218,7 +219,7 @@ namespace News4U_Web_API.Controllers
         public async Task<ActionResult> ParagraphListNewsEdit(string newsId, [FromBody] ParagraphListEditDTO editValue)
         {
             int i = 0;
-            foreach(Paragraph p in editValue.Paragraphs)
+            foreach (Paragraph p in editValue.Paragraphs)
             {
                 if (!string.IsNullOrEmpty(p.PicturePath))
                     p.PicturePath = FileManagerService.SaveImageToFile(p.PicturePath, "paragraphPicture" + i + newsId);
@@ -236,5 +237,22 @@ namespace News4U_Web_API.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        [Route("{editorId}/date/{date}")]
+        public async Task<IActionResult> DeleteByDate(string editorId, DateTime date)
+        {
+            IEnumerable<News> newsList = await _repository.DeleteNewsByDate(editorId, date);
+
+            List<string> newsIds = new List<string>();
+            foreach (News n in newsList)
+            {
+                newsIds.Add(n.Id);
+            }
+
+            await _editorRepository.DeleteNewsByDate(newsIds, editorId);
+              
+
+            return Ok();
+        }
     }
 }

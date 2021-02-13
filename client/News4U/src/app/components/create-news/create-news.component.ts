@@ -57,7 +57,7 @@ export class CreateNewsComponent implements OnInit {
     this.editorName = this.authService.getUserFromStorage()['firstName'] + this.authService.getUserFromStorage()['lastName']
 
     alert("Poštovani, da bismo poboljšali vaše iskustvo, evo malih napomena: \n" 
-          +"1. Da biste kreirali vest, ona mora sadrzati makar jedan pasus. Klikom na \"Dodaj Pasus\", pasus će biti snimljen i možete nastaviti sa kreiranjem sledećeg \n"
+          +"1. Da biste kreirali vest, ona mora sadržati makar jedan pasus. Klikom na \"Dodaj Pasus\", pasus će biti snimljen i možete nastaviti sa kreiranjem sledećeg \n"
           +"2. Ako ne budete bili zadovoljni anketom ili grafikom, možete ih poništiti klikom na \"Reset\", pri čemu neće biti snimljeni prilikom kreiranja vesti!\n"
           +"3. Ukoliko niste popunili ispravno podatke za anketu ili grafik, nećete moći kreirati vest! Poništite ova polja, ili popunite formu do kraja! \n\n"
           + "Vaš \"News4U\" Team!");
@@ -126,7 +126,7 @@ export class CreateNewsComponent implements OnInit {
     this.paragraphPicturePom = "";
     this.paragraphPicture = "";
 
-    this.toastr.success('Uspesno ste snimili pasus!', 'Obavestenje:');
+    this.toastr.success('Uspesno ste snimili pasus!', 'Obaveštenje:');
   }
 
   handleNumberOfValues():void {
