@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { News } from 'src/app/models/news';
 import { NewsService } from 'src/app/services/news.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-create-news',
@@ -42,11 +43,18 @@ export class CreateNewsComponent implements OnInit {
   public numberOfPoles: number;
   public chart:Chart = new Chart();
 
-  constructor(private newsService:NewsService, private route:ActivatedRoute, private toastr: ToastrService) { }
+  //user that creates news
+  public editorId:string;
+  public editorName:string;
+
+  constructor(private authService:AuthenticationService, private newsService:NewsService, private route:ActivatedRoute, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     console.log("onInit method");
     this.news = new News();
+
+    this.editorId = this.authService.getUserFromStorage()["id"]
+    this.editorName = this.authService.getUserFromStorage()['firstName'] + this.authService.getUserFromStorage()['lastName']
 
     alert("Poštovani, da bismo poboljšali vaše iskustvo, evo malih napomena: \n" 
           +"1. Da biste kreirali vest, ona mora sadrzati makar jedan pasus. Klikom na \"Dodaj Pasus\", pasus će biti snimljen i možete nastaviti sa kreiranjem sledećeg \n"
@@ -162,7 +170,7 @@ export class CreateNewsComponent implements OnInit {
   }
 
   checkNewParagraph():boolean {
-    if(this.subTitle == null || this.subTitle == "" || this.text == null || this.text == "")
+    if(this.text == null || this.text == "")
       return false;
     
     return true;
@@ -243,12 +251,21 @@ export class CreateNewsComponent implements OnInit {
       {
         this.news.chart = this.chart;
       }
-  
-      this.newsService.createNews(this.news).subscribe(
+      
+      this.news.editorName = this.editorName;
+      this.newsService.createNews(this.news, this.editorId).subscribe(
         result=> {
           console.log("Created news!");
         }
       );
+
+      /*this.service.createGroup(this.userId, this.groupName, this.groupField, this.groupDescription, this.groupImagePom).subscribe(
+        result => {
+          console.log("Created group");
+          this.router.navigate(['/dashboard/my-groups'])
+        }
+      );*/
+
   }
 
 }

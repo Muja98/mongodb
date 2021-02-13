@@ -17,13 +17,13 @@ export class NewsService {
     return this.http.get<News>(URL + "/api/news/" + newsId + "?commentsCount=" + commentsCount);
   }
 
-  createNews(news: News) {
+  createNews(news: News, editorId: string) {
     debugger
     console.log(news);
     
-    return this.http.post(URL + "/api/news/6019d9901e3c7dd5dd607002", 
-    {Id: news.id, title: news.title, MainPicturePath: news.mainPicturePath, Field: news.field, EditorId: "6019d9901e3c7dd5dd607002", 
-     EditorName: "Cakic Predrag", Paragraphs: news.paragraphs, Tags: news.tags, Survey: news.survey, Chart: news.chart});
+    return this.http.post(URL + "/api/news/" + editorId, 
+    {Id: news.id, title: news.title, MainPicturePath: news.mainPicturePath, Field: news.field, EditorId: editorId, 
+     EditorName: news.editorName, Paragraphs: news.paragraphs, Tags: news.tags, Survey: news.survey, Chart: news.chart});
   }
 
   deleteNews(newsId:string) {

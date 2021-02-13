@@ -1,4 +1,4 @@
-import { EditNewsComponent } from './components/create-news/edit-news/edit-news.component';
+import { EditNewsComponent } from './components/edit-news/edit-news.component';
 import { CreateParagraphComponent } from './components/create-paragraph/create-paragraph.component';
 import { CreateNewsComponent } from './components/create-news/create-news.component';
 import { LoginComponent } from './components/auth/login/login.component';
