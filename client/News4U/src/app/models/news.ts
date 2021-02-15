@@ -16,4 +16,5 @@ export class News
     chart:Chart = null;
     comments:Comment[] = [];
     editorName:string = "";
+    editorId:string = "";
 }

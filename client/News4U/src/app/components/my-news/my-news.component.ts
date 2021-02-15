@@ -100,6 +100,10 @@ export class MyNewsComponent implements OnInit {
     }
   }
 
+  public handleClickEditNews(ind:number) {
+    this.router.navigate(['/edit-news/' + this.myNews[ind].id])
+  }
+
   public getProperDateTime(dateTime:string) {
     let dateTimeObj:Date = new Date(dateTime);
     let day:string = String(dateTimeObj.getDate());
