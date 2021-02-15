@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class EditNewsComponent implements OnInit {
 
-    public  fields = ["politika", "obrazovanje", "korona virus", "sport", "zabava"];
+    public  fields:Array<string> = [];
     public news:News;
     public newsCopy:News;
     private sub:any;
@@ -44,7 +44,10 @@ export class EditNewsComponent implements OnInit {
 
     ngOnInit(): void {
         debugger
-       
+
+        this.newsService.getAvailableFields().subscribe((fields:Array<string>)=>{
+          this.fields = fields;
+        })
         this.sub = this.route.params.subscribe(params => {
             this.newsId = params['newsId']
             this.newsService.getSpecificNews(this.newsId, 5).subscribe(result => {
