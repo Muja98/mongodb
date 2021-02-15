@@ -242,8 +242,16 @@ export class CreateNewsComponent implements OnInit {
   handleCreateNews():void {
     debugger
 
-      var splittedTags = this.tags.split(" ");
-      this.news.tags = splittedTags;
+      if(this.tags == null || this.tags == "")
+      {
+        this.news.tags = null;
+      }
+      else
+      {
+        var splittedTags = this.tags.split(" ");
+        this.news.tags = splittedTags;
+      }
+
       this.news.mainPicturePath = this.mainPicturePom;
 
       if(this.numberOfValues > 0)
