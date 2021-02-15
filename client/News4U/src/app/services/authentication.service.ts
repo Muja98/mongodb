@@ -25,18 +25,18 @@ export class AuthenticationService {
   }
   register(newUser)
   {
-      let mess = "";
+      let mess:string = "";
       this.http.post(URL+'/api/editors', newUser).subscribe(
         (result:any)=>  {
           if(typeof result.value !== 'undefined')
           {
             if(result.value !== 'Email taken') 
               this.router.navigate(['/login']);
+            else 
+              mess = result.value
           }
-           
         })
-
-      
+      return mess;
   }
 
   login(username,password) 

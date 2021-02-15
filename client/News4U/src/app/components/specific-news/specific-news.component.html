@@ -36,7 +36,7 @@
         <div class="container">
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Najnovije vesti</a></li>
-                <li class="breadcrumb-item active">Sport</li>
+                <li class="breadcrumb-item active">{{news.field[0].toUpperCase() + news.field.slice(1, news.field.length)}}</li>
             </ul>
         </div>
     </div>
@@ -55,7 +55,7 @@
                             <h1 class="sn-title">{{news.title}}</h1>
                             <div *ngFor="let paragraph of news.paragraphs">
                                 <h3>{{paragraph.subTitle}}</h3>
-                                <img *ngIf="paragraph.picturePath" [src]="'data:image/png;base64,' + paragraph.picturePath" />
+                                <img *ngIf="paragraph.picturePath" [src]="'data:image/png;base64,' + paragraph.picturePath" class="paragraph-img"/>
                                 <p>{{paragraph.text}}</p>
                             </div>
                         </div>

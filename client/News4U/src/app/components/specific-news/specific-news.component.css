@@ -1766,3 +1766,7 @@ button.btn:disabled {
 .thumbupo {
     color: #17a2b8
 }
+
+.paragraph-img {
+    width: 100%;
+}
