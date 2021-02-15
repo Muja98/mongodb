@@ -13,10 +13,10 @@
       </div>
       <div>
         <button type="button" class="btn btn-success darkredBtn" (click)="clickDeleteDateTime()" *ngIf="canChooseDateTime">Obriši</button>
-        <div class="row" ngbPopover="Potvrdi brisanje vesti" triggers="mouseenter:mouseleave" *ngIf="!canChooseDateTime">
+        <div class="row" ngbPopover="Potvrdite brisanje vesti" triggers="mouseenter:mouseleave" *ngIf="!canChooseDateTime">
           <button type="button" class="btn btn-success darkredBtn" (click)="confirmDeleteDateTime()">Potvrdi</button>
         </div>
-        <div class="row" ngbPopover="Odustani od brisanja vesti" triggers="mouseenter:mouseleave" *ngIf="!canChooseDateTime">
+        <div class="row" ngbPopover="Odustanite od brisanja vesti" triggers="mouseenter:mouseleave" *ngIf="!canChooseDateTime">
           <button type="button" class="btn btn-success darkredBtn" (click)="cancelDeleteDateTime()">Odustani</button>
         </div>
       </div>
@@ -44,16 +44,19 @@
           </p>
         </div>
       </div>
-      <div ngbPopover="Obriši vest" triggers="mouseenter:mouseleave" *ngIf="myClicks[i]==0">
+      <div ngbPopover="Obrišite vest" triggers="mouseenter:mouseleave" *ngIf="myClicks[i]==0">
         <i (click)="clickDelete(i)" class="clickable fa fa-times-circle fa-lg"  aria-hidden="true"></i>
       </div>
       <div *ngIf="myClicks[i] > 0" style="margin-left: 30px;">
-        <div class="row" ngbPopover="Potvrdi brisanje vesti" triggers="mouseenter:mouseleave">
+        <div class="row" ngbPopover="Potvrdite brisanje vesti" triggers="mouseenter:mouseleave">
           <button type="button" class="btn btn-success darkredBtn" (click)="confirmDelete(i)">Potvrdi</button>
         </div>
-        <div class="row" ngbPopover="Odustani od brisanja vesti" triggers="mouseenter:mouseleave">
+        <div class="row" ngbPopover="Odustanite od brisanja vesti" triggers="mouseenter:mouseleave">
           <button type="button" class="btn btn-success darkredBtn" (click)="cancelDelete(i)">Odustani</button>
         </div>
+      </div>
+      <div ngbPopover="Izmenite vest" triggers="mouseenter:mouseleave" style="margin-left: 10px;">
+        <i (click)="handleClickEditNews(i)" class="clickable fa fa-pencil fa-lg" aria-hidden="true"></i>
       </div>
     </div>
   </div>

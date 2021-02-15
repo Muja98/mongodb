@@ -11,7 +11,7 @@
         <div class="col-md-4">
             <label for="news.field">Oblast</label>
             <select class="form-control" [(ngModel)]="news.field">
-                <option *ngFor="let field of fields" [value]="field">
+                <option *ngFor="let field of fields; index as i"  [value]="field">
                     {{field}}
                 </option>
             </select>

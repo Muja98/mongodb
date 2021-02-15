@@ -46,7 +46,10 @@ export class EditNewsComponent implements OnInit {
 
     ngOnInit(): void {
         debugger
-       
+
+        this.newsService.getAvailableFields().subscribe((fields:Array<string>)=>{
+          this.fields = fields;
+        })
         this.sub = this.route.params.subscribe(params => {
             this.newsId = params['newsId']
             

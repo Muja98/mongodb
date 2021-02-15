@@ -51,6 +51,11 @@ export class CreateNewsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("onInit method");
+
+    this.newsService.getAvailableFields().subscribe((fields: Array<string>)=>{
+      this.fields = fields;
+    })
+
     this.news = new News();
 
     this.editorId = this.authService.getUserFromStorage()["id"]

@@ -3,6 +3,7 @@ import { NewsService } from 'src/app/services/news.service';
 import { Paragraph } from './../../models/paragraph';
 import { News } from './../../models/news';
 import { Component, OnInit,  } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class MainPageComponent implements OnInit {
   public fieldText = "";
   public fieldIndex = -1;
   public fieldArray:string[] = [];
-  constructor( public service: NewsService, public router:Router) { }
+  private editorId:string;
+  constructor( public service: NewsService, public router:Router, private authService:AuthenticationService) { }
 
   handleClickSearch()
   {
@@ -53,9 +55,12 @@ export class MainPageComponent implements OnInit {
     else return false;
   }
 
-  handleRedirectSpecificNews(id:string)
+  handleRedirectSpecificNews(ind:number)
   {
-    this.router.navigate(['/specific-news/'+id])
+    if(this.newsArray[ind].editorId == this.editorId)
+      this.router.navigate(['/edit-news/' + this.newsArray[ind].id])
+    else
+      this.router.navigate(['/specific-news/' + this.newsArray[ind].id])
   }
 
   handleLoadMore()
@@ -73,13 +78,18 @@ export class MainPageComponent implements OnInit {
   }
   
   ngOnInit(): void {
-     this.service.getAllNews(this.start,this.end,"","","").subscribe((el:News[])=>{
-        this.newsArray = el;
-     })
-     
-     this.service.getAvailableFields().subscribe((fields:string[])=>{
-       this.fieldArray = fields;
-     })
+    let editor = this.authService.getUserFromStorage();
+    if(editor)
+      this.editorId = editor['id'];
+    else
+      this.editorId = "";
+    this.service.getAllNews(this.start,this.end,"","","").subscribe((el:News[])=>{
+      this.newsArray = el;
+    })
+    
+    this.service.getAvailableFields().subscribe((fields:string[])=>{
+      this.fieldArray = fields;
+    })
      
   } 
 

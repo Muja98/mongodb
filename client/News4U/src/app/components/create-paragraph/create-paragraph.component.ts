@@ -1,3 +1,4 @@
+import { NewsService } from 'src/app/services/news.service';
 import { TestBed } from '@angular/core/testing';
 import { Paragraph } from './../../models/paragraph';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -17,10 +18,12 @@ export class CreateParagraphComponent implements OnInit {
     imagePom:any;
     image:string;
 
+    public filedArray: Array<string> = [];
+
     @Output() changed =  new EventEmitter<string> ();
 
     constructor() { }
-
+   
     ngOnInit(): void {
         console.log("onInit method");
     }
