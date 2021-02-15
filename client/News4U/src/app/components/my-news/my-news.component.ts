@@ -17,7 +17,7 @@ export class MyNewsComponent implements OnInit {
   public dataLoaded:boolean = false;
   public chosenDateTime:string = new Date().toISOString().slice(0, 16);
   public canChooseDateTime:boolean = true;
-  private perLoad:number = 3;
+  private perLoad:number = 5;
   public noMoreNews:boolean = false;
 
   constructor(private newsService:NewsService, private authService:AuthenticationService, private router:Router, private toastr:ToastrService) { }
