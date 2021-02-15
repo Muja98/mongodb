@@ -74,6 +74,8 @@ export class MyNewsComponent implements OnInit {
         else
           result = result.slice(0, 1);
         this.myNews = this.myNews.concat(result);
+        this.myClicks = new Array(this.myNews.length);
+        this.myClicks.fill(0);
       })
     })
   }
