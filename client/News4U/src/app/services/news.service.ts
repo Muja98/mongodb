@@ -84,4 +84,8 @@ export class NewsService {
   chartNewsEdit(newsId: string, key: string,  chart: any) {
     return this.http.put(URL + "/api/news/edit-chart-prop/" + newsId, { key: key, chart: chart })
   }
+  
+  pictureNewsEdit(newsId: string, key: string, picture: any) {
+    return this.http.put(URL + "/api/news/edit-picture-prop/" + newsId, { key: key, picture: picture })
+  }
 }

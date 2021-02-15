@@ -11,10 +11,14 @@ namespace News4U_Data_Provider.DTOs
 
         public override object GetValue()
         {
-            foreach(NamedValue nv in Survey.AnswerValue)
+            if(Survey != null && Survey.AnswerValue != null)
             {
-                nv.Value = 0;
+                foreach (NamedValue nv in Survey.AnswerValue)
+                {
+                    nv.Value = 0;
+                }
             }
+
             return Survey;
         }
     }

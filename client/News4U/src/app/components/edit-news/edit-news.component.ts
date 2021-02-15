@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class EditNewsComponent implements OnInit {
 
-    public  fields = ["politika", "obrazovanje", "korona virus", "sport", "zabava"];
+    public  fields: any;
     public news:News;
     public newsCopy:News;
     private sub:any;
@@ -40,6 +40,8 @@ export class EditNewsComponent implements OnInit {
     public subTitle:string = "";
     public text:string = "";
 
+    public isLoaded:boolean = false;
+
     constructor(private newsService:NewsService, private route:ActivatedRoute, private router:Router, private toastr: ToastrService) { }
 
     ngOnInit(): void {
@@ -47,11 +49,29 @@ export class EditNewsComponent implements OnInit {
        
         this.sub = this.route.params.subscribe(params => {
             this.newsId = params['newsId']
+            
+            this.newsService.getAvailableFields().subscribe(
+              result=> {
+                this.fields = result;
+                console.log("Fields are ready!");
+              }
+            );
+
             this.newsService.getSpecificNews(this.newsId, 5).subscribe(result => {
               this.news = result;
-              this.tags  = this.createStringFromTags(this.news.tags);
+              debugger
+              if(!this.news.tags)
+                this.tags = "";
+              else  this.tags  = this.createStringFromTags(this.news.tags);
+
+              if(this.news.chart)
+                this.numberOfPoles = this.news.chart.data.length;
+
+              if(this.news.survey)
+                this.numberOfValues = this.news.survey.answerValue.length;
+
               this.newsCopy = JSON.parse(JSON.stringify(this.news));
-              this.numberOfPoles = this.newsCopy.chart.data.length;
+              this.isLoaded = true;
             })
           })
 
@@ -351,7 +371,7 @@ export class EditNewsComponent implements OnInit {
     handleSaveMainPicture():void {
       debugger
 
-      this.newsService.stringNewsEdit(this.news.id, "MainPicturePath",  this.newsCopy.mainPicturePath).subscribe(
+      this.newsService.pictureNewsEdit(this.news.id, "MainPicturePath",  this.newsCopy.mainPicturePath).subscribe(
         result=> {
           console.log("Main picture updated!");
         }
@@ -386,7 +406,11 @@ export class EditNewsComponent implements OnInit {
 
     handleDeleteParagraph(ind): void {
       debugger
-      this.newsCopy.paragraphs.splice(ind, 1);
+      if(this.newsCopy.paragraphs.length > 1)
+      {
+        this.newsCopy.paragraphs.splice(ind, 1);
+      }
+      else  this.toastr.error("Nije moguće obrisati pasus! Vest mora da sadrži najmanje jedan pasus!", "Obaveštenje!");
     }
 
     handleSaveSurvey(edit:boolean):void {

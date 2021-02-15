@@ -3,7 +3,7 @@ import { NamedValue } from './../../models/named-value';
 import { Survey } from './../../models/survey';
 import { Paragraph } from './../../models/paragraph';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { News } from 'src/app/models/news';
 import { NewsService } from 'src/app/services/news.service';
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +18,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class CreateNewsComponent implements OnInit {
   public news:News;
 
-  public  fields = ["politika", "obrazovanje", "korona virus", "sport", "zabava"];
+  public  fields:any;
   public tags: string = "";
 
   //main picture
@@ -47,7 +47,7 @@ export class CreateNewsComponent implements OnInit {
   public editorId:string;
   public editorName:string;
 
-  constructor(private authService:AuthenticationService, private newsService:NewsService, private route:ActivatedRoute, private toastr: ToastrService) { }
+  constructor(private authService:AuthenticationService, private newsService:NewsService, private route:ActivatedRoute, private toastr: ToastrService, private router:Router) { }
 
   ngOnInit(): void {
     console.log("onInit method");
@@ -55,6 +55,13 @@ export class CreateNewsComponent implements OnInit {
 
     this.editorId = this.authService.getUserFromStorage()["id"]
     this.editorName = this.authService.getUserFromStorage()['firstName'] + " " + this.authService.getUserFromStorage()['lastName']
+
+    this.newsService.getAvailableFields().subscribe(
+      result=> {
+        this.fields = result;
+        console.log("Fields are ready!");
+      }
+    );
 
     alert("Poštovani, da bismo poboljšali vaše iskustvo, evo malih napomena: \n" 
           +"1. Da biste kreirali vest, ona mora sadržati makar jedan pasus. Klikom na \"Dodaj Pasus\", pasus će biti snimljen i možete nastaviti sa kreiranjem sledećeg \n"
@@ -268,16 +275,9 @@ export class CreateNewsComponent implements OnInit {
       this.newsService.createNews(this.news, this.editorId).subscribe(
         result=> {
           console.log("Created news!");
+          this.router.navigate(['/my-news'])
         }
       );
-
-      /*this.service.createGroup(this.userId, this.groupName, this.groupField, this.groupDescription, this.groupImagePom).subscribe(
-        result => {
-          console.log("Created group");
-          this.router.navigate(['/dashboard/my-groups'])
-        }
-      );*/
-
   }
 
 }
