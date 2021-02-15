@@ -71,6 +71,10 @@ export class MainPageComponent implements OnInit {
     this.service.getAllNews(this.start,this.end,this.fieldText,this.searchText,this.selectedTagText).subscribe((el:News[])=>{
       if(el.length==2) return;
       el.forEach((elpom:News)=>{
+        if(elpom.mainPicturePath === null)
+          elpom.mainPicturePath = "assets\\noImage2.png";
+        else
+          elpom.mainPicturePath = 'data:image/png;base64,'+elpom.mainPicturePath;
         this.newsArray.push(elpom)
        
       })
@@ -84,6 +88,12 @@ export class MainPageComponent implements OnInit {
     else
       this.editorId = "";
     this.service.getAllNews(this.start,this.end,"","","").subscribe((el:News[])=>{
+      el.forEach((ele)=>{
+        if(ele.mainPicturePath === null)
+          ele.mainPicturePath = "assets\\noImage2.png"
+        else
+          ele.mainPicturePath = 'data:image/png;base64,'+ele.mainPicturePath
+      })
       this.newsArray = el;
     })
     
