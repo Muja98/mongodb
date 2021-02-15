@@ -125,7 +125,7 @@
                     </div>
                 </div>
             </div>
-            <div (click)="handleRedirectSpecificNews(i + 3)" *ngIf="handleCheckNumber(i,2) && (i>2)" class="container d-flex flex-row shadow rounded pl-4 pr-4 pt-3 pb-3 mt-5"  style="background-color: white; cursor: pointer;">
+            <div (click)="handleRedirectSpecificNews(i)" *ngIf="handleCheckNumber(i,2) && (i>2)" class="container d-flex flex-row shadow rounded pl-4 pr-4 pt-3 pb-3 mt-5"  style="background-color: white; cursor: pointer;">
                 <div class="col pr-5">
                     <div class="row">
                      <h5>"{{this.newsArray[i].title}}"</h5>
