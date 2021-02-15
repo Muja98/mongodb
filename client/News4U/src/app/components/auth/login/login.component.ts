@@ -27,9 +27,9 @@ export class LoginComponent implements OnInit {
 
   handleRedirect()
   {
-    if(this.username.length===0){this.error.username = "Please fill the Username input "}
+    if(this.username.length===0){this.error.username = "Morate uneti korisničko ime"}
     else{this.error.username = ""}
-    if(this.password.length===0){this.error.password = "Please fill the Password input"} 
+    if(this.password.length===0){this.error.password = "Morate uneti lozinku"} 
     else{this.error.password = ""}
     if(this.username.length===0 || this.password.length==0)return;
     
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     if(this.log.length !== 0)
       this.setSpinner = true;
     else
-      this.log = "Could not log in"
+      this.log = "Pogrešno korisničko ime ili lozinka"
 
   }
 

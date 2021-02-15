@@ -31,20 +31,21 @@ export class RegisterComponent implements OnInit {
 
     if(bol)
     {
-      if(this.name.length===0){this.error.name = "Please fill Name input "}
+      if(this.name.length===0){this.error.name = "Morate uneti ime"}
       else{this.error.name = ""}
-      if(this.surname.length===0){this.error.surname = "Please fill Surname input "}
+      if(this.surname.length===0){this.error.surname = "Morate uneti prezime"}
       else{this.error.surname = ""}
-      if(this.username.length===0){this.error.username = "Please fill Username input "}
+      if(this.username.length===0){this.error.username = "Morate uneti korisničko ime"}
       else{this.error.username = ""}
-      if(this.password.length===0){this.error.password = "Please fill Password input"} 
+      if(this.password.length===0){this.error.password = "Morate uneti lozinku"} 
       else{this.error.password = ""}
-      if(this.rpassword.length===0){this.error.rpassword = "Please fill Repeat Password input"} 
+      if(this.rpassword.length===0){this.error.rpassword = "Morate ponoviti lozinka"} 
       else{this.error.rpassword = ""}
-      if(this.password !== this.rpassword){this.error.rpassword = "Repeated Password didn't match"} 
+      if(this.password !== this.rpassword){this.error.rpassword = "Noedgovarajuća ponovljena lozinka"} 
       else{this.error.rpassword = ""}
   
       if(this.username.length===0  || this.name.length == 0 || this.surname.length == 0 || this.password.length ==0||this.rpassword.length == 0)return;
+      if(this.error.name.length > 0 || this.error.surname.length > 0 || this.error.username.length > 0 || this.error.password.length > 0 || this.error.rpassword.length > 0) return;
 
       let user = {
         Username: this.username,
@@ -53,8 +54,8 @@ export class RegisterComponent implements OnInit {
         Password:this.password
       }
       
-      this.service.register(user);
-      this.error.register = "Could not register"
+      let mess = this.service.register(user);
+      this.error.register = "Korisničko ime je zauzeto"
     }
     else
     {
