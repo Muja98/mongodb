@@ -54,7 +54,7 @@ export class CreateNewsComponent implements OnInit {
     this.news = new News();
 
     this.editorId = this.authService.getUserFromStorage()["id"]
-    this.editorName = this.authService.getUserFromStorage()['firstName'] + this.authService.getUserFromStorage()['lastName']
+    this.editorName = this.authService.getUserFromStorage()['firstName'] + " " + this.authService.getUserFromStorage()['lastName']
 
     alert("Poštovani, da bismo poboljšali vaše iskustvo, evo malih napomena: \n" 
           +"1. Da biste kreirali vest, ona mora sadržati makar jedan pasus. Klikom na \"Dodaj Pasus\", pasus će biti snimljen i možete nastaviti sa kreiranjem sledećeg \n"
@@ -170,6 +170,7 @@ export class CreateNewsComponent implements OnInit {
   }
 
   checkNewParagraph():boolean {
+  
     if(this.text == null || this.text == "")
       return false;
     
@@ -177,6 +178,7 @@ export class CreateNewsComponent implements OnInit {
   }
 
   handleResetSurvey():void {
+    debugger
     this.numberOfValues = 0;
     this.survey.question = "";
     this.survey.answerValue = [];
@@ -184,12 +186,14 @@ export class CreateNewsComponent implements OnInit {
   }
 
   handleResetChart():void {
+    debugger
     this.numberOfPoles = 0;
     this.chart.description = "";
     this.chart.data = [];
   }
 
   checkData(): boolean {
+    debugger
     if(this.news.title == null || this.news.title == "" || this.news.field == null || this.news.field == "")
     {
       return false;

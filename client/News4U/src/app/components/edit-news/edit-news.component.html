@@ -1,23 +1,26 @@
 <div class="container">
+
+    <!-- red sa Naslovom, i propratnim dugmicima -->
     <div class="row justify-content-md-space-beetwen mt-5">
         <div class="col-md-4">
-            <label for="newsCopy.title" class="form-label">Naslov</label>
+            <label class="form-label">Naslov</label>
             <input 
                 type="text" class="form-control"
-                [(ngModel)]="news.title"
+                [(ngModel)]="newsCopy.title"
             >
         </div>
         <div class="col-2 pt-4">
-            <button type="button" class="btn btn-success">Sacuvaj izmene</button>
+            <button type="button" class="btn btn-success" (click)="handleSaveTitle()">Sačuvajte izmene</button>
         </div>
         <div class="col-3 pt-4">
-            <button type="button" class="btn btn-danger">Resetuj na poslednje sacuvano</button>
+            <button type="button" class="btn btn-danger" (click)="handleResetTitle()">Resetujte na poslednje sačuvano</button>
         </div>
     </div>
 
+     <!-- red sa Oblastima, i propratnim dugmicima -->
     <div class="row justify-content-md-space-beetwen mt-2">
         <div class="col-md-4">
-            <label for="newsCopy.field">Oblast</label>
+            <label>Oblast</label>
             <select class="form-control" [(ngModel)]="newsCopy.field">
                 <option *ngFor="let field of fields" [value]="field">
                     {{field}}
@@ -25,13 +28,14 @@
             </select>
         </div>
         <div class="col-2 pt-4">
-            <button type="button" class="btn btn-success">Sacuvaj izmene</button>
+            <button type="button" class="btn btn-success" (click)="handleSaveField()">Sačuvajte izmene</button>
         </div>
         <div class="col-3 pt-4">
-            <button type="button" class="btn btn-danger">Resetuj na poslednje sacuvano</button>
+            <button type="button" class="btn btn-danger" (click)="handleResetField()">Resetujte na poslednje sačuvano</button>
         </div>
     </div>
 
+    <!-- red sa tagovima, i propratnim dugmicima -->
     <div class="row justify-content-md-space-beetwen mt-2">
         <div class="col-md-4">
             <label for="tags" class="form-label">Tagovi</label>
@@ -41,10 +45,10 @@
             >
         </div>
         <div class="col-2 pt-4">
-            <button type="button" class="btn btn-success">Sacuvaj izmene</button>
+            <button type="button" class="btn btn-success" (click)="handleSaveTags()">Sačuvajte izmene</button>
         </div>
         <div class="col-3 pt-4">
-            <button type="button" class="btn btn-danger">Resetuj na poslednje sacuvano</button>
+            <button type="button" class="btn btn-danger" (click)="handleResetTags()">Resetujte na poslednje sačuvano</button>
         </div>
     </div>
 
@@ -52,28 +56,31 @@
         <label>Promenite naslovnu fotografiju vesti</label>
     </div>
 
+    <!-- red sa unosom glavne slike -->
     <div class="row justify-content-md-space-beetwen pt-1 pb-3">
         <div class="col-4">
             <input type="file"  (change)="mainOnUploadChange($event)" accept=".png, .jpg, .jpeg, .pdf" />
         </div>
     </div>
 
+    <!-- red sa prikazom glavne slike, ukoliko je ima -->
     <div class=" row sn-img" *ngIf="newsCopy.mainPicturePath">
         <div class="col-4">  
             <img [src]="'data:image/png;base64,' + newsCopy.mainPicturePath" height="250px" width="250px" /> 
         </div>
         <div class="col-2 pt-4">
-            <button type="button" class="btn btn-success">Sacuvaj izmene</button>
+            <button type="button" class="btn btn-success" (click)="handleSaveMainPicture()">Sačuvajte izmene</button>
         </div>
         <div class="col-3 pt-4">
-            <button type="button" class="btn btn-danger">Resetuj na poslednje sacuvano</button>
+            <button type="button" class="btn btn-danger" (click)="handleResetMainPicture()">Resetujte na poslednje sačuvano</button>
         </div>
     </div>
 
     <div class="row mt-5 ml-1">
-        <h5>Izmena postojecih pasusa</h5>
+        <h5>Izmena postojećih pasusa</h5>
     </div>
 
+    <!-- red sa pasusima, koji formiraju mrezu -->
     <div  class="row d-flex flex-wrap justify-content-space-around mt-3">
         <div *ngFor="let item of newsCopy.paragraphs; index as ind" class="col-6 container card" >
             <div class="row justify-content-md-space-beetwen mt-2">
@@ -109,22 +116,24 @@
 
             <div class="row justify-content-md-center pt-1 pb-3">
                 <div>
-                    <button type="button" class="btn btn-danger">Obrisi pasus</button>
+                    <button type="button" class="btn btn-danger" (click)="handleDeleteParagraph(ind)">Obrišite pasus</button>
                 </div>
             </div>
 
         </div>
     </div>
 
+    <!-- cuvanje izmena pasusa -->
     <div class="row justify-content-md-center">
-        <div class="col-3 pt-3">
-            <button type="button" class="btn btn-success">Sacuvaj izmene tekstova</button>
+        <div *ngIf="newsCopy.paragraphs.length > 0" class="col-3 pt-3">
+            <button type="button" class="btn btn-success" (click)="handleSaveParagraphs()">Sačuvajte izmene tekstova</button>
         </div>
         <div class="col-3 pt-3">
-            <button type="button" class="btn btn-danger">Resetuj na poslednje sacuvano</button>
+            <button type="button" class="btn btn-danger" (click)="handleResetParagraphs()">Resetujte na poslednje sačuvano</button>
         </div>
     </div>
 
+    <!-- dodavanje novog pasusa -->
     <div class="row justify-content-md-center mt-4">
         <div class="col-7 container card" >
             <div class="row ml-1 mt-2">
@@ -168,15 +177,14 @@
         </div>
     </div>
 
-    <div class="row justify-content-md-center mt-3" >
-        <div class="col container card ml-3" style="min-height: 250px; width: 600px;" >
-            <div *ngIf="newsCopy.survey" class="row ml-1 mt-2">
-                <h5>Zameni anketu</h5>
-            </div>
-            <div *ngIf="newsCopy.survey == null" class="row ml-1 mt-2">
-                <h5>Kreiraj anketu</h5>
-            </div>
 
+    <!-- prikaz i izmena anketa-->
+    <div class="row justify-content-md-center mt-3" >
+         <!-- kreiranje nove ankete-->
+        <div *ngIf="!news.survey" class="col-5 container card" style="min-height: 250px;" >
+            <div class="row ml-1">
+                <h5>Kreirajte anketu</h5>
+            </div>
 
             <div class="row justify-content-md-space-beetwen mt-2">
                 <div class="col">
@@ -193,7 +201,7 @@
                     <input type="number" class="form-control"  [(ngModel)]="numberOfValues" min="0" max="5" value="0">
                 </div>
                 <div class="col">
-                    <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfValues()">Postavite broj opcija za glasače</button>
+                    <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfValues(false)">Postavite broj opcija za glasače</button>
                 </div>
             </div>
             <div class="row mt-2" *ngFor="let item of survey.answerValue" >
@@ -206,23 +214,113 @@
                 </div>
             </div>
             <div class="row justify-content-md-center mt-2">
-                <button type="button" class="btn btn-success darkredBtn" (click)="handleResetSurvey()">Resetuj vrednosti</button>
+                <button type="button" class="btn btn-success darkredBtn" (click)="handleResetSurvey(false)">Resetujte vrednosti</button>
             </div>
-            <div class="row justify-content-md-center mt-2 ml-4 mb-2">
-                <div class="col-3 pt-3">
-                    <button type="button" class="btn btn-success">Sacuvaj izmenu ankete</button>
+        </div>
+
+        <!--Izmena postojece ankete-->
+        <div *ngIf="news.survey" class="col-5 container card" style="min-height: 250px;" >
+            <div class="row ml-1">
+                <h5>Izmenite anketu</h5>
+            </div>
+
+            <div class="row justify-content-md-space-beetwen mt-2">
+                <div class="col">
+                    <label class="form-label">Pitanje</label>
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="Unesite pitanje vezano za anketu..."
+                        [(ngModel)]="newsCopy.survey.question"
+                    >
                 </div>
-                <div *ngIf="news.survey != null" class="col-4 pt-3">
-                    <button type="button" class="btn btn-danger">Obrisi poslednje sacuvanu anketu</button>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <input type="number" class="form-control"  [(ngModel)]="numberOfValues" min="0" max="5" [value]="news.survey.answerValue.length">
                 </div>
+                <div class="col">
+                    <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfValues(true)">Postavite broj opcija za glasače</button>
+                </div>
+            </div>
+            <div class="row mt-2" *ngFor="let item of newsCopy.survey.answerValue" >
+                <div class="col">
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="unesite naziv opcije..."
+                        [(ngModel)]="item.name"
+                    >
+                </div>
+            </div>
+            <div class="row justify-content-md-center mt-2">
+                <button type="button" class="btn btn-success darkredBtn" (click)="handleResetSurvey(true)">Resetujte vrednosti</button>
             </div>
         </div>
     </div>
 
-    <div *ngIf="newsCopy.chart" class="row justify-content-md-center mt-3 ml-2 mr-2 mb-3">
-        <div class="col-8 container card">
+    <div class="row justify-content-md-center mt-2 ml-4 mb-2">
+        <div *ngIf="!news.survey" class="col-3 pt-3">
+            <button type="button" class="btn btn-success" (click)="handleSaveSurvey(false)">Sačuvajte anketu</button>
+        </div>
+
+        <div *ngIf="news.survey" class="col-3 pt-3">
+            <button type="button" class="btn btn-success" (click)="handleSaveSurvey(true)">Sačuvajte izmenu ankete</button>
+        </div>
+
+        <div *ngIf="news.survey != null" class="col-4 pt-3">
+            <button type="button" class="btn btn-danger" (click)="handleDeleteSurvey()">Obrišite postojeću anketu</button>
+        </div>
+    </div>
+
+    <div  class="row justify-content-md-center mt-3 ml-2 mr-2 mb-3">
+
+        <!-- unos novog grafika ukoliko ne postoji-->
+        <div *ngIf="!news.chart" class="col-8 container card">
+            <div class="row justify-content-md-center ml-2 mt-2">
+                <h5>Da li želite grafik u okviru vesti? Kreirajte ga!</h5>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-6">
+                    <label class="form-label">Opis problema</label>
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="unesite tekst..."
+                        [(ngModel)]="chart.description"
+                    >
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center mt-2">
+                <div class="col-3">
+                    <input type="number" class="form-control"  [(ngModel)]="numberOfPoles" min="0" max="20">
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfPoles(false)">Postavite broj stubića grafika</button>
+                </div>
+            </div>
+
+            <div class="row mt-2" *ngFor="let item of chart.data" >
+                <div class="col-4">
+                    <input 
+                        type="text" class="form-control"
+                        placeholder="unesite naziv vrednosti..."
+                        [(ngModel)]="item.name"
+                    >
+                </div>
+                <div class="col-3">
+                    <input type="number" class="form-control"  [(ngModel)]="item.value" min="0" step="0.1">
+                </div>
+            </div>
+
+            <div class="row justify-content-md-center mt-3 mb-3">
+                <button type="button" class="btn btn-success darkredBtn" (click)="handleResetChart(false)">Resetujte</button>
+            </div>
+        </div>
+
+        <!-- izmena postojeceg grafika, ako postoji-->
+        <div *ngIf="news.chart" class="col-8 container card">
            <div class="row justify-content-md-center ml-2 mt-2">
-               <h5>Izmeni postojeci grafik</h5>
+               <h5>Izmenite postojeći grafik</h5>
            </div>
  
            <div class="row mt-2">
@@ -240,7 +338,7 @@
                    <input type="number" class="form-control"  [(ngModel)]="numberOfPoles" min="0" max="20">
                </div>
                <div class="col">
-                   <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfPoles()">Postavite broj broj stubića grafika</button>
+                   <button type="button" class="btn btn-success darkredBtn" (click)="handleNumberOfPoles(true)">Postavite broj broj stubića grafika</button>
                </div>
            </div>
 
@@ -257,8 +355,21 @@
            </div>
 
            <div class="row justify-content-md-center mt-3 mb-3">
-               <button type="button" class="btn btn-success darkredBtn" (click)="handleResetChart()">Resetuj</button>
+               <button type="button" class="btn btn-success darkredBtn" (click)="handleResetChart(true)">Resetujte vrednosti</button>
            </div>
        </div>
    </div>
+
+   <!-- Cuvanje izmena grafika-->
+   <div class="row justify-content-md-center mt-2 ml-4 mb-2">
+        <div *ngIf="!news.chart" class="col-3 pt-3">
+            <button type="button" class="btn btn-success" (click)="handleSaveChart(false)">Sačuvajte grafik</button>
+        </div>
+        <div *ngIf="news.chart" class="col-3 pt-3">
+            <button type="button" class="btn btn-success" (click)="handleSaveChart(true)">Sačuvajte izmenu grafika</button>
+        </div>
+        <div *ngIf="news.chart != null" class="col-4 pt-3">
+            <button type="button" class="btn btn-danger" (click)="handleDeleteChart()">Obrišite poslednje sačuvan grafik</button>
+        </div>
+    </div>
 </div>

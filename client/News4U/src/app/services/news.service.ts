@@ -1,3 +1,4 @@
+import { Paragraph } from './../models/paragraph';
 import { Survey } from './../models/survey';
 import { Injectable } from '@angular/core';
 import URL from '../../API/api';
@@ -62,5 +63,25 @@ export class NewsService {
   getAvailableFields()
   {
     return this.http.get(URL+"/api/news/available-fields");
+  }
+
+  stringNewsEdit(newsId: string, key: string,  myString: string) {
+    return this.http.put(URL + "/api/news/edit-string-prop/" + newsId, { key: key, myString: myString })
+  }
+
+  stringListNewsEdit(newsId: string, key: string,  myList: any) {
+    return this.http.put(URL + "/api/news/edit-string-list-prop/" + newsId, { key: key, myList: myList })
+  }
+
+  paragraphListNewsEdit(newsId: string, key: string, paragraphs: any) {
+    return this.http.put(URL + "/api/news/edit-paragraph-list-prop/" + newsId, { key: key, paragraphs: paragraphs })
+  }
+
+  surveyNewsEdit(newsId: string, key: string,  survey: any) {
+    return this.http.put(URL + "/api/news/edit-survey-prop/" + newsId, { key: key, survey: survey })
+  }
+
+  chartNewsEdit(newsId: string, key: string,  chart: any) {
+    return this.http.put(URL + "/api/news/edit-chart-prop/" + newsId, { key: key, chart: chart })
   }
 }
